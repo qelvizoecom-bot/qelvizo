@@ -3,228 +3,1027 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>QELVIZO Owner Panel</title>
 
 <style>
-*{box-sizing:border-box}
+*{
+  box-sizing:border-box;
+}
+
 body{
   margin:0;
-  font-family:Arial,sans-serif;
-  background:#f5f7f6;
-  color:#18221d;
+  font-family:Arial, sans-serif;
+  background:#f4f7f5;
+  color:#17221b;
 }
-.login{
+
+button,input,textarea{
+  font-family:inherit;
+}
+
+.login-page{
   min-height:100vh;
   display:flex;
   align-items:center;
   justify-content:center;
   padding:20px;
 }
+
 .login-box{
   width:100%;
-  max-width:390px;
+  max-width:400px;
   background:white;
-  padding:30px;
+  padding:32px;
   border-radius:20px;
-  box-shadow:0 10px 35px #0002;
+  box-shadow:0 10px 35px rgba(0,0,0,.12);
 }
+
 .logo{
   text-align:center;
   font-size:30px;
   font-weight:800;
   letter-spacing:2px;
-  margin-bottom:8px;
 }
-.subtitle{
+
+.login-title{
   text-align:center;
   color:#66716b;
-  margin-bottom:25px;
+  margin:8px 0 25px;
 }
-input,button{
+
+input,textarea{
   width:100%;
-  padding:14px;
+  padding:13px;
+  border:1px solid #ccd5cf;
   border-radius:10px;
-  border:1px solid #ccd4cf;
-  font-size:16px;
   margin-bottom:14px;
+  font-size:15px;
+  outline:none;
 }
-button{
-  background:#1d6b45;
-  color:white;
+
+textarea{
+  min-height:100px;
+  resize:vertical;
+}
+
+input:focus,textarea:focus{
+  border-color:#1c7047;
+}
+
+.btn{
   border:0;
-  font-weight:bold;
+  border-radius:10px;
+  padding:13px 18px;
   cursor:pointer;
+  font-weight:bold;
 }
+
+.btn-primary{
+  width:100%;
+  background:#1d7048;
+  color:white;
+}
+
+.btn-primary:hover{
+  background:#155a39;
+}
+
 .error{
+  display:none;
   color:#c62828;
   text-align:center;
-  display:none;
+  margin-top:12px;
 }
+
 .dashboard{
   display:none;
 }
-header{
-  background:#10271c;
+
+.topbar{
+  background:#10261a;
   color:white;
-  padding:18px 22px;
+  padding:17px 22px;
   display:flex;
   justify-content:space-between;
   align-items:center;
 }
-header button{
-  width:auto;
-  margin:0;
-  padding:9px 15px;
-  background:#fff2;
+
+.brand{
+  font-size:20px;
+  font-weight:bold;
 }
+
+.logout{
+  background:#ffffff18;
+  color:white;
+  border:1px solid #ffffff40;
+  padding:9px 14px;
+  border-radius:8px;
+  cursor:pointer;
+}
+
 .container{
-  max-width:1100px;
+  max-width:1150px;
   margin:auto;
   padding:25px 18px;
 }
-h1{margin-top:0}
+
+.page-title{
+  margin:0;
+}
+
 .cards{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
   gap:15px;
+  margin:22px 0;
 }
+
 .card{
-  background:white;
-  padding:22px;
-  border-radius:16px;
-  box-shadow:0 3px 15px #0001;
-}
-.card b{
-  display:block;
-  font-size:28px;
-  margin-top:8px;
-}
-.menu{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-  gap:15px;
-  margin-top:25px;
-}
-.menu div{
   background:white;
   padding:20px;
   border-radius:15px;
-  box-shadow:0 3px 15px #0001;
-  cursor:pointer;
+  box-shadow:0 3px 15px rgba(0,0,0,.07);
 }
-.menu strong{display:block;margin-bottom:7px}
+
+.card-title{
+  color:#657069;
+}
+
+.card-number{
+  display:block;
+  font-size:28px;
+  font-weight:bold;
+  margin-top:8px;
+}
+
+.panel{
+  background:white;
+  border-radius:16px;
+  padding:22px;
+  margin-top:20px;
+  box-shadow:0 3px 15px rgba(0,0,0,.07);
+}
+
+.panel h2{
+  margin-top:0;
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:15px;
+}
+
+.full{
+  grid-column:1/-1;
+}
+
+.product-list{
+  display:grid;
+  gap:12px;
+}
+
+.product{
+  border:1px solid #e0e5e1;
+  border-radius:12px;
+  padding:15px;
+  display:flex;
+  gap:15px;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.product-left{
+  display:flex;
+  gap:15px;
+  align-items:center;
+}
+
+.product-image{
+  width:75px;
+  height:75px;
+  object-fit:cover;
+  border-radius:10px;
+  background:#eef2ef;
+}
+
+.product-info h3{
+  margin:0 0 6px;
+}
+
+.product-info p{
+  margin:3px 0;
+  color:#66716b;
+  font-size:14px;
+}
+
+.actions{
+  display:flex;
+  gap:7px;
+  flex-wrap:wrap;
+}
+
+.small-btn{
+  border:0;
+  padding:8px 11px;
+  border-radius:7px;
+  cursor:pointer;
+  font-weight:bold;
+}
+
+.edit{
+  background:#e8f0ff;
+  color:#2455a4;
+}
+
+.delete{
+  background:#ffe8e8;
+  color:#b32121;
+}
+
+.stock{
+  background:#e7f6ec;
+  color:#17703d;
+}
+
+.outstock{
+  background:#fff0df;
+  color:#a85a00;
+}
+
+.cancel{
+  background:#eee;
+  color:#333;
+}
+
+.empty{
+  text-align:center;
+  color:#777;
+  padding:25px;
+}
+
+.hidden{
+  display:none;
+}
+
+@media(max-width:650px){
+
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  .full{
+    grid-column:auto;
+  }
+
+  .product{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .product-left{
+    width:100%;
+  }
+
+  .actions{
+    width:100%;
+  }
+
+  .small-btn{
+    flex:1;
+  }
+}
 </style>
 </head>
 
 <body>
 
-<div class="login" id="loginPage">
+<!-- LOGIN -->
+
+<div class="login-page" id="loginPage">
+
   <div class="login-box">
+
     <div class="logo">QELVIZO</div>
-    <div class="subtitle">Owner Login</div>
 
-    <input id="email" type="email" placeholder="Owner Email">
-    <input id="password" type="password" placeholder="Password">
+    <div class="login-title">
+      Owner Login
+    </div>
 
-    <button onclick="login()">Login</button>
+    <input
+      type="email"
+      id="loginEmail"
+      placeholder="Owner Email"
+    >
 
-    <div class="error" id="error">
+    <input
+      type="password"
+      id="loginPassword"
+      placeholder="Password"
+    >
+
+    <button
+      class="btn btn-primary"
+      onclick="login()"
+    >
+      Login
+    </button>
+
+    <div class="error" id="loginError">
       Invalid email or password
     </div>
+
   </div>
+
 </div>
+
+
+<!-- DASHBOARD -->
 
 <div class="dashboard" id="dashboard">
 
-<header>
-  <strong>QELVIZO OWNER</strong>
-  <button onclick="logout()">Logout</button>
+<header class="topbar">
+
+  <div class="brand">
+    QELVIZO OWNER
+  </div>
+
+  <button class="logout" onclick="logout()">
+    Logout
+  </button>
+
 </header>
+
 
 <div class="container">
 
-<h1>Dashboard</h1>
-<p>Welcome to your QELVIZO Owner Panel.</p>
+  <h1 class="page-title">
+    Dashboard
+  </h1>
 
-<div class="cards">
+  <p>
+    Manage your QELVIZO products.
+  </p>
 
-  <div class="card">
-    Products
-    <b>0</b>
+
+  <!-- DASHBOARD CARDS -->
+
+  <div class="cards">
+
+    <div class="card">
+      <span class="card-title">Products</span>
+      <span class="card-number" id="productCount">0</span>
+    </div>
+
+    <div class="card">
+      <span class="card-title">In Stock</span>
+      <span class="card-number" id="stockCount">0</span>
+    </div>
+
+    <div class="card">
+      <span class="card-title">Out of Stock</span>
+      <span class="card-number" id="outStockCount">0</span>
+    </div>
+
+    <div class="card">
+      <span class="card-title">Orders</span>
+      <span class="card-number">0</span>
+    </div>
+
   </div>
 
-  <div class="card">
-    Orders
-    <b>0</b>
+
+  <!-- ADD PRODUCT -->
+
+  <div class="panel">
+
+    <h2 id="formTitle">
+      ➕ Add Product
+    </h2>
+
+    <div class="form-grid">
+
+      <div>
+        <label>Product Name</label>
+        <input
+          id="productName"
+          placeholder="Example: Garden Rake"
+        >
+      </div>
+
+      <div>
+        <label>Price ₹</label>
+        <input
+          id="productPrice"
+          type="number"
+          placeholder="199"
+        >
+      </div>
+
+      <div>
+        <label>MRP ₹</label>
+        <input
+          id="productMrp"
+          type="number"
+          placeholder="299"
+        >
+      </div>
+
+      <div>
+        <label>Stock Quantity</label>
+        <input
+          id="productStock"
+          type="number"
+          placeholder="50"
+        >
+      </div>
+
+      <div class="full">
+        <label>Product Image URL</label>
+        <input
+          id="productImage"
+          placeholder="https://example.com/product.jpg"
+        >
+      </div>
+
+      <div class="full">
+        <label>Description</label>
+        <textarea
+          id="productDescription"
+          placeholder="Write product description..."
+        ></textarea>
+      </div>
+
+    </div>
+
+    <button
+      class="btn btn-primary"
+      onclick="saveProduct()"
+      id="saveButton"
+    >
+      Add Product
+    </button>
+
+    <button
+      class="btn cancel hidden"
+      onclick="cancelEdit()"
+      id="cancelButton"
+    >
+      Cancel Edit
+    </button>
+
   </div>
 
-  <div class="card">
-    Customers
-    <b>0</b>
-  </div>
 
-  <div class="card">
-    Sales
-    <b>₹0</b>
+  <!-- PRODUCT LIST -->
+
+  <div class="panel">
+
+    <h2>📦 Products</h2>
+
+    <div
+      class="product-list"
+      id="productList"
+    ></div>
+
   </div>
 
 </div>
 
-<div class="menu">
-
-  <div>
-    <strong>📦 Products</strong>
-    Add, edit and manage products
-  </div>
-
-  <div>
-    <strong>➕ Add Product</strong>
-    Upload a new product
-  </div>
-
-  <div>
-    <strong>🛒 Orders</strong>
-    Manage customer orders
-  </div>
-
-  <div>
-    <strong>⚙️ Settings</strong>
-    Manage website settings
-  </div>
-
 </div>
 
-</div>
-</div>
 
 <script>
+
+/* =========================
+   LOGIN
+========================= */
+
 function login(){
 
-  const email=document.getElementById("email").value;
-  const password=document.getElementById("password").value;
+  const email =
+    document.getElementById("loginEmail").value.trim();
+
+  const password =
+    document.getElementById("loginPassword").value;
 
   /*
     TEMPORARY DEMO LOGIN
-    Real secure authentication will be added later.
   */
 
-  if(email==="owner@qelvizo.com" && password==="Qelvizo@123"){
+  if(
+    email === "owner@qelvizo.com" &&
+    password === "Qelvizo@123"
+  ){
 
-    document.getElementById("loginPage").style.display="none";
-    document.getElementById("dashboard").style.display="block";
+    sessionStorage.setItem(
+      "qelvizoLoggedIn",
+      "true"
+    );
+
+    showDashboard();
 
   }else{
 
-    document.getElementById("error").style.display="block";
+    document.getElementById("loginError").style.display =
+      "block";
 
   }
 }
 
+
 function logout(){
-  document.getElementById("dashboard").style.display="none";
-  document.getElementById("loginPage").style.display="flex";
+
+  sessionStorage.removeItem(
+    "qelvizoLoggedIn"
+  );
+
+  location.reload();
+
 }
+
+
+function showDashboard(){
+
+  document.getElementById("loginPage").style.display =
+    "none";
+
+  document.getElementById("dashboard").style.display =
+    "block";
+
+  displayProducts();
+
+}
+
+
+/* =========================
+   PRODUCT DATA
+========================= */
+
+let products =
+  JSON.parse(
+    localStorage.getItem("qelvizoProducts") || "[]"
+  );
+
+let editId = null;
+
+
+/* =========================
+   SAVE PRODUCT
+========================= */
+
+function saveProduct(){
+
+  const name =
+    document.getElementById("productName").value.trim();
+
+  const price =
+    document.getElementById("productPrice").value;
+
+  const mrp =
+    document.getElementById("productMrp").value;
+
+  const stock =
+    document.getElementById("productStock").value;
+
+  const image =
+    document.getElementById("productImage").value.trim();
+
+  const description =
+    document.getElementById("productDescription").value.trim();
+
+
+  if(!name || !price){
+
+    alert("Please enter Product Name and Price.");
+
+    return;
+
+  }
+
+
+  if(editId !== null){
+
+    const index =
+      products.findIndex(
+        product => product.id === editId
+      );
+
+    if(index !== -1){
+
+      products[index] = {
+
+        ...products[index],
+
+        name:name,
+        price:Number(price),
+        mrp:Number(mrp || 0),
+        stock:Number(stock || 0),
+        image:image,
+        description:description
+
+      };
+
+    }
+
+    editId = null;
+
+  }else{
+
+    const product = {
+
+      id:Date.now(),
+
+      name:name,
+
+      price:Number(price),
+
+      mrp:Number(mrp || 0),
+
+      stock:Number(stock || 0),
+
+      image:image,
+
+      description:description,
+
+      active:true
+
+    };
+
+    products.push(product);
+
+  }
+
+
+  saveData();
+
+  clearForm();
+
+  displayProducts();
+
+}
+
+
+/* =========================
+   SAVE LOCAL DATA
+========================= */
+
+function saveData(){
+
+  localStorage.setItem(
+    "qelvizoProducts",
+    JSON.stringify(products)
+  );
+
+}
+
+
+/* =========================
+   DISPLAY PRODUCTS
+========================= */
+
+function displayProducts(){
+
+  const list =
+    document.getElementById("productList");
+
+  list.innerHTML = "";
+
+
+  if(products.length === 0){
+
+    list.innerHTML =
+      '<div class="empty">No products added yet.</div>';
+
+  }
+
+
+  products.forEach(product => {
+
+    const item =
+      document.createElement("div");
+
+    item.className = "product";
+
+
+    const image =
+      product.image ||
+      "https://via.placeholder.com/75";
+
+
+    const stockClass =
+      product.stock > 0
+      ? "stock"
+      : "outstock";
+
+
+    const stockText =
+      product.stock > 0
+      ? "🟢 In Stock"
+      : "🔴 Out of Stock";
+
+
+    item.innerHTML = `
+
+      <div class="product-left">
+
+        <img
+          class="product-image"
+          src="${image}"
+          onerror="this.src='https://via.placeholder.com/75'"
+        >
+
+        <div class="product-info">
+
+          <h3>${escapeHTML(product.name)}</h3>
+
+          <p>
+            Price: ₹${product.price}
+            ${product.mrp ? " | MRP: ₹" + product.mrp : ""}
+          </p>
+
+          <p>
+            Stock: ${product.stock}
+          </p>
+
+          <p>
+            ${escapeHTML(product.description || "")}
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div class="actions">
+
+        <button
+          class="small-btn ${stockClass}"
+          onclick="toggleStock(${product.id})"
+        >
+          ${stockText}
+        </button>
+
+        <button
+          class="small-btn edit"
+          onclick="editProduct(${product.id})"
+        >
+          ✏️ Edit
+        </button>
+
+        <button
+          class="small-btn delete"
+          onclick="deleteProduct(${product.id})"
+        >
+          🗑️ Delete
+        </button>
+
+      </div>
+
+    `;
+
+
+    list.appendChild(item);
+
+  });
+
+
+  updateStats();
+
+}
+
+
+/* =========================
+   EDIT PRODUCT
+========================= */
+
+function editProduct(id){
+
+  const product =
+    products.find(
+      item => item.id === id
+    );
+
+  if(!product) return;
+
+
+  document.getElementById("productName").value =
+    product.name;
+
+  document.getElementById("productPrice").value =
+    product.price;
+
+  document.getElementById("productMrp").value =
+    product.mrp;
+
+  document.getElementById("productStock").value =
+    product.stock;
+
+  document.getElementById("productImage").value =
+    product.image;
+
+  document.getElementById("productDescription").value =
+    product.description;
+
+
+  editId = id;
+
+
+  document.getElementById("formTitle").innerText =
+    "✏️ Edit Product";
+
+  document.getElementById("saveButton").innerText =
+    "Update Product";
+
+  document.getElementById("cancelButton")
+    .classList.remove("hidden");
+
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+
+/* =========================
+   CANCEL EDIT
+========================= */
+
+function cancelEdit(){
+
+  editId = null;
+
+  clearForm();
+
+}
+
+
+/* =========================
+   DELETE PRODUCT
+========================= */
+
+function deleteProduct(id){
+
+  const product =
+    products.find(
+      item => item.id === id
+    );
+
+
+  if(!product) return;
+
+
+  if(
+    confirm(
+      "Delete " + product.name + "?"
+    )
+  ){
+
+    products =
+      products.filter(
+        item => item.id !== id
+      );
+
+    saveData();
+
+    displayProducts();
+
+  }
+
+}
+
+
+/* =========================
+   STOCK ON/OFF
+========================= */
+
+function toggleStock(id){
+
+  const product =
+    products.find(
+      item => item.id === id
+    );
+
+  if(!product) return;
+
+
+  if(product.stock > 0){
+
+    product.stock = 0;
+
+  }else{
+
+    product.stock = 1;
+
+  }
+
+
+  saveData();
+
+  displayProducts();
+
+}
+
+
+/* =========================
+   CLEAR FORM
+========================= */
+
+function clearForm(){
+
+  document.getElementById("productName").value = "";
+
+  document.getElementById("productPrice").value = "";
+
+  document.getElementById("productMrp").value = "";
+
+  document.getElementById("productStock").value = "";
+
+  document.getElementById("productImage").value = "";
+
+  document.getElementById("productDescription").value = "";
+
+
+  document.getElementById("formTitle").innerText =
+    "➕ Add Product";
+
+  document.getElementById("saveButton").innerText =
+    "Add Product";
+
+  document.getElementById("cancelButton")
+    .classList.add("hidden");
+
+}
+
+
+/* =========================
+   DASHBOARD STATS
+========================= */
+
+function updateStats(){
+
+  const total =
+    products.length;
+
+  const inStock =
+    products.filter(
+      product => product.stock > 0
+    ).length;
+
+  const outStock =
+    products.filter(
+      product => product.stock <= 0
+    ).length;
+
+
+  document.getElementById("productCount")
+    .innerText = total;
+
+  document.getElementById("stockCount")
+    .innerText = inStock;
+
+  document.getElementById("outStockCount")
+    .innerText = outStock;
+
+}
+
+
+/* =========================
+   SECURITY: HTML ESCAPE
+========================= */
+
+function escapeHTML(value){
+
+  return String(value)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================
+   AUTO LOGIN CHECK
+========================= */
+
+if(
+  sessionStorage.getItem(
+    "qelvizoLoggedIn"
+  ) === "true"
+){
+
+  showDashboard();
+
+}
+
 </script>
 
 </body>
   </html>
+    
