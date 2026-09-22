@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QELVIZO Owner Panel</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f5f7f6;
+  color:#18221d;
+}
+.login{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+.login-box{
+  width:100%;
+  max-width:390px;
+  background:white;
+  padding:30px;
+  border-radius:20px;
+  box-shadow:0 10px 35px #0002;
+}
+.logo{
+  text-align:center;
+  font-size:30px;
+  font-weight:800;
+  letter-spacing:2px;
+  margin-bottom:8px;
+}
+.subtitle{
+  text-align:center;
+  color:#66716b;
+  margin-bottom:25px;
+}
+input,button{
+  width:100%;
+  padding:14px;
+  border-radius:10px;
+  border:1px solid #ccd4cf;
+  font-size:16px;
+  margin-bottom:14px;
+}
+button{
+  background:#1d6b45;
+  color:white;
+  border:0;
+  font-weight:bold;
+  cursor:pointer;
+}
+.error{
+  color:#c62828;
+  text-align:center;
+  display:none;
+}
+.dashboard{
+  display:none;
+}
+header{
+  background:#10271c;
+  color:white;
+  padding:18px 22px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+header button{
+  width:auto;
+  margin:0;
+  padding:9px 15px;
+  background:#fff2;
+}
+.container{
+  max-width:1100px;
+  margin:auto;
+  padding:25px 18px;
+}
+h1{margin-top:0}
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:15px;
+}
+.card{
+  background:white;
+  padding:22px;
+  border-radius:16px;
+  box-shadow:0 3px 15px #0001;
+}
+.card b{
+  display:block;
+  font-size:28px;
+  margin-top:8px;
+}
+.menu{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:15px;
+  margin-top:25px;
+}
+.menu div{
+  background:white;
+  padding:20px;
+  border-radius:15px;
+  box-shadow:0 3px 15px #0001;
+  cursor:pointer;
+}
+.menu strong{display:block;margin-bottom:7px}
+</style>
+</head>
+
+<body>
+
+<div class="login" id="loginPage">
+  <div class="login-box">
+    <div class="logo">QELVIZO</div>
+    <div class="subtitle">Owner Login</div>
+
+    <input id="email" type="email" placeholder="Owner Email">
+    <input id="password" type="password" placeholder="Password">
+
+    <button onclick="login()">Login</button>
+
+    <div class="error" id="error">
+      Invalid email or password
+    </div>
+  </div>
+</div>
+
+<div class="dashboard" id="dashboard">
+
+<header>
+  <strong>QELVIZO OWNER</strong>
+  <button onclick="logout()">Logout</button>
+</header>
+
+<div class="container">
+
+<h1>Dashboard</h1>
+<p>Welcome to your QELVIZO Owner Panel.</p>
+
+<div class="cards">
+
+  <div class="card">
+    Products
+    <b>0</b>
+  </div>
+
+  <div class="card">
+    Orders
+    <b>0</b>
+  </div>
+
+  <div class="card">
+    Customers
+    <b>0</b>
+  </div>
+
+  <div class="card">
+    Sales
+    <b>₹0</b>
+  </div>
+
+</div>
+
+<div class="menu">
+
+  <div>
+    <strong>📦 Products</strong>
+    Add, edit and manage products
+  </div>
+
+  <div>
+    <strong>➕ Add Product</strong>
+    Upload a new product
+  </div>
+
+  <div>
+    <strong>🛒 Orders</strong>
+    Manage customer orders
+  </div>
+
+  <div>
+    <strong>⚙️ Settings</strong>
+    Manage website settings
+  </div>
+
+</div>
+
+</div>
+</div>
+
+<script>
+function login(){
+
+  const email=document.getElementById("email").value;
+  const password=document.getElementById("password").value;
+
+  /*
+    TEMPORARY DEMO LOGIN
+    Real secure authentication will be added later.
+  */
+
+  if(email==="owner@qelvizo.com" && password==="Qelvizo@123"){
+
+    document.getElementById("loginPage").style.display="none";
+    document.getElementById("dashboard").style.display="block";
+
+  }else{
+
+    document.getElementById("error").style.display="block";
+
+  }
+}
+
+function logout(){
+  document.getElementById("dashboard").style.display="none";
+  document.getElementById("loginPage").style.display="flex";
+}
+</script>
+
+</body>
+  </html>
