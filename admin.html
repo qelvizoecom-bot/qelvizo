@@ -1,1104 +1,706 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>QELVIZO Owner Panel</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>QELVIZO Owner Panel</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f5f7fa;
-      color: #111827;
-    }
-
-    .container {
-      max-width: 1100px;
-      margin: auto;
-      padding: 20px;
-    }
-
-    .brand {
-      font-size: 28px;
-      font-weight: 800;
-      margin-bottom: 5px;
-    }
-
-    .subtitle {
-      color: #6b7280;
-      margin-bottom: 25px;
-    }
-
-    .card {
-      background: white;
-      border-radius: 14px;
-      padding: 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 4px 18px rgba(0,0,0,0.07);
-    }
-
-    h2 {
-      margin-top: 0;
-    }
-
-    input,
-    textarea {
-      width: 100%;
-      padding: 13px;
-      margin-top: 7px;
-      margin-bottom: 14px;
-      border: 1px solid #d1d5db;
-      border-radius: 9px;
-      font-size: 15px;
-    }
-
-    textarea {
-      min-height: 100px;
-      resize: vertical;
-    }
-
-    label {
-      font-weight: 600;
-      font-size: 14px;
-    }
-
-    button {
-      border: 0;
-      border-radius: 9px;
-      padding: 12px 18px;
-      font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .primary {
-      background: #111827;
-      color: white;
-    }
-
-    .secondary {
-      background: #e5e7eb;
-      color: #111827;
-    }
-
-    .danger {
-      background: #dc2626;
-      color: white;
-    }
-
-    .success {
-      background: #16a34a;
-      color: white;
-    }
-
-    .message {
-      margin-top: 12px;
-      padding: 10px;
-      border-radius: 8px;
-      display: none;
-    }
-
-    .error {
-      background: #fee2e2;
-      color: #991b1b;
-    }
-
-    .ok {
-      background: #dcfce7;
-      color: #166534;
-    }
-
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 15px;
-    }
-
-    .stat {
-      background: #f9fafb;
-      padding: 18px;
-      border-radius: 12px;
-      text-align: center;
-    }
-
-    .stat strong {
-      display: block;
-      font-size: 28px;
-      margin-top: 5px;
-    }
-
-    .products {
-      display: grid;
-      gap: 15px;
-    }
-
-    .product {
-      border: 1px solid #e5e7eb;
-      border-radius: 12px;
-      padding: 15px;
-      display: flex;
-      gap: 15px;
-      align-items: center;
-    }
-
-    .product img {
-      width: 90px;
-      height: 90px;
-      object-fit: cover;
-      border-radius: 10px;
-      background: #f3f4f6;
-    }
-
-    .product-info {
-      flex: 1;
-    }
-
-    .product-name {
-      font-size: 18px;
-      font-weight: 700;
-      margin-bottom: 5px;
-    }
-
-    .price {
-      font-weight: 700;
-    }
-
-    .mrp {
-      color: #6b7280;
-      text-decoration: line-through;
-      margin-left: 8px;
-    }
-
-    .stock {
-      margin-top: 5px;
-      color: #374151;
-    }
-
-    .actions {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .hidden {
-      display: none !important;
-    }
-
-    @media (max-width: 700px) {
-      .stats {
-        grid-template-columns: 1fr;
-      }
-
-      .product {
-        align-items: flex-start;
-        flex-direction: column;
-      }
-
-      .product img {
-        width: 100%;
-        height: 180px;
-      }
-
-      .actions {
-        width: 100%;
-      }
-
-      .actions button {
-        flex: 1;
-      }
-    }
-  </style>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f5f7fa;color:#111827}
+.container{max-width:1100px;margin:auto;padding:20px}
+.brand{font-size:28px;font-weight:800}
+.subtitle{color:#6b7280;margin:5px 0 25px}
+.card{background:#fff;border-radius:14px;padding:20px;margin-bottom:20px;box-shadow:0 4px 18px rgba(0,0,0,.07)}
+input,textarea{width:100%;padding:13px;margin:7px 0 14px;border:1px solid #d1d5db;border-radius:9px;font-size:15px}
+textarea{min-height:100px}
+label{font-weight:600;font-size:14px}
+button{border:0;border-radius:9px;padding:12px 18px;font-size:15px;font-weight:700;cursor:pointer}
+.primary{background:#111827;color:white}
+.secondary{background:#e5e7eb;color:#111827}
+.danger{background:#dc2626;color:white}
+.success{background:#16a34a;color:white}
+.message{margin-top:12px;padding:10px;border-radius:8px;display:none}
+.error{background:#fee2e2;color:#991b1b}
+.ok{background:#dcfce7;color:#166534}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+.stat{background:#f9fafb;padding:18px;border-radius:12px;text-align:center}
+.stat strong{display:block;font-size:28px;margin-top:5px}
+.products{display:grid;gap:15px}
+.product{border:1px solid #e5e7eb;border-radius:12px;padding:15px;display:flex;gap:15px;align-items:center}
+.product img{width:90px;height:90px;object-fit:cover;border-radius:10px;background:#f3f4f6}
+.product-info{flex:1}
+.product-name{font-size:18px;font-weight:700;margin-bottom:5px}
+.price{font-weight:700}
+.mrp{color:#6b7280;text-decoration:line-through;margin-left:8px}
+.stock{margin-top:5px;color:#374151}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.hidden{display:none!important}
+.preview{max-width:180px;max-height:180px;border-radius:10px;margin:5px 0 15px;display:none}
+@media(max-width:700px){
+.stats{grid-template-columns:1fr}
+.product{flex-direction:column;align-items:flex-start}
+.product img{width:100%;height:180px}
+}
+</style>
 </head>
 
 <body>
-
 <div class="container">
 
-  <!-- LOGIN -->
-  <div id="loginBox" class="card">
-    <div class="brand">QELVIZO</div>
-    <div class="subtitle">Owner Login</div>
+<!-- LOGIN -->
+<div id="loginBox" class="card">
+<div class="brand">QELVIZO</div>
+<div class="subtitle">Owner Login</div>
 
-    <label>Email</label>
-    <input id="email" type="email" placeholder="Owner email">
+<label>Email</label>
+<input id="email" type="email" placeholder="Owner email">
 
-    <label>Password</label>
-    <input id="password" type="password" placeholder="Password">
+<label>Password</label>
+<input id="password" type="password" placeholder="Password">
 
-    <button id="loginBtn" class="primary">Login</button>
-
-    <div id="loginMessage" class="message"></div>
-  </div>
-
-
-  <!-- DASHBOARD -->
-  <div id="dashboard" class="hidden">
-
-    <div class="brand">QELVIZO OWNER PANEL</div>
-    <div class="subtitle">
-      Manage your products
-    </div>
-
-    <!-- STATS -->
-    <div class="stats">
-
-      <div class="stat">
-        Products
-        <strong id="totalProducts">0</strong>
-      </div>
-
-      <div class="stat">
-        Stock
-        <strong id="totalStock">0</strong>
-      </div>
-
-      <div class="stat">
-        Active
-        <strong id="activeProducts">0</strong>
-      </div>
-
-    </div>
-
-    <br>
-
-
-    <!-- ADD PRODUCT -->
-    <div class="card">
-
-      <h2 id="formTitle">Add Product</h2>
-
-      <label>Product Name</label>
-      <input
-        id="productName"
-        type="text"
-        placeholder="Example: Garden Rake"
-      >
-
-      <label>Selling Price</label>
-      <input
-        id="productPrice"
-        type="number"
-        placeholder="199"
-      >
-
-      <label>MRP</label>
-      <input
-        id="productMrp"
-        type="number"
-        placeholder="299"
-      >
-
-      <label>Stock Quantity</label>
-      <input
-        id="productStock"
-        type="number"
-        placeholder="10"
-      >
-
-      <label>Product Image URL</label>
-      <input
-        id="productImage"
-        type="url"
-        placeholder="https://example.com/image.jpg"
-      >
-
-      <label>Description</label>
-      <textarea
-        id="productDescription"
-        placeholder="Write product description..."
-      ></textarea>
-
-      <button id="saveBtn" class="primary">
-        Save Product
-      </button>
-
-      <button
-        id="cancelBtn"
-        class="secondary hidden"
-        type="button"
-      >
-        Cancel Edit
-      </button>
-
-      <div id="productMessage" class="message"></div>
-
-    </div>
-
-
-    <!-- PRODUCTS -->
-    <div class="card">
-
-      <h2>My Products</h2>
-
-      <div id="productsList" class="products">
-        Loading products...
-      </div>
-
-    </div>
-
-
-    <button id="logoutBtn" class="danger">
-      Logout
-    </button>
-
-  </div>
-
+<button id="loginBtn" class="primary">Login</button>
+<div id="loginMessage" class="message"></div>
 </div>
 
+<!-- DASHBOARD -->
+<div id="dashboard" class="hidden">
+
+<div class="brand">QELVIZO OWNER PANEL</div>
+<div class="subtitle">Manage your products</div>
+
+<div class="stats">
+<div class="stat">Products<strong id="totalProducts">0</strong></div>
+<div class="stat">Stock<strong id="totalStock">0</strong></div>
+<div class="stat">Active<strong id="activeProducts">0</strong></div>
+</div>
+
+<br>
+
+<!-- PRODUCT FORM -->
+<div class="card">
+<h2 id="formTitle">Add Product</h2>
+
+<label>Product Name</label>
+<input id="productName" type="text" placeholder="Garden Rake">
+
+<label>Selling Price</label>
+<input id="productPrice" type="number" placeholder="199">
+
+<label>MRP</label>
+<input id="productMrp" type="number" placeholder="299">
+
+<label>Stock Quantity</label>
+<input id="productStock" type="number" placeholder="10">
+
+<label>Product Image</label>
+<input id="productFile" type="file" accept="image/*">
+
+<img id="imagePreview" class="preview">
+
+<label>Description</label>
+<textarea id="productDescription" placeholder="Write product description..."></textarea>
+
+<button id="saveBtn" class="primary">Save Product</button>
+<button id="cancelBtn" class="secondary hidden">Cancel Edit</button>
+
+<div id="productMessage" class="message"></div>
+</div>
+
+<!-- PRODUCTS -->
+<div class="card">
+<h2>My Products</h2>
+<div id="productsList">Loading products...</div>
+</div>
+
+<button id="logoutBtn" class="danger">Logout</button>
+
+</div>
+</div>
 
 <script>
 
-  /* ==============================
-     SUPABASE CONFIG
-  ============================== */
+const SUPABASE_URL =
+"https://oogibbmsiiarceczqgfa.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_VLedtJ2r9K4fC00T4k8CgA_ahfpM1dh";
+
+const db = supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
 
-  const SUPABASE_URL =
-    "https://oogibbmsiiarceczqgfa.supabase.co";
+const loginBox=document.getElementById("loginBox");
+const dashboard=document.getElementById("dashboard");
+const loginBtn=document.getElementById("loginBtn");
+const logoutBtn=document.getElementById("logoutBtn");
+const loginMessage=document.getElementById("loginMessage");
+const productMessage=document.getElementById("productMessage");
 
-  const SUPABASE_KEY =
-    "sb_publishable_VLedtJ2r9K4fC00T4k8CgA_ahfpM1dh";
+const productName=document.getElementById("productName");
+const productPrice=document.getElementById("productPrice");
+const productMrp=document.getElementById("productMrp");
+const productStock=document.getElementById("productStock");
+const productFile=document.getElementById("productFile");
+const productDescription=document.getElementById("productDescription");
+const imagePreview=document.getElementById("imagePreview");
+
+const saveBtn=document.getElementById("saveBtn");
+const cancelBtn=document.getElementById("cancelBtn");
+const productsList=document.getElementById("productsList");
+
+let editingId=null;
+let oldImageUrl=null;
+let selectedFile=null;
+
+
+/* MESSAGE */
+
+function message(el,text,type){
+el.textContent=text;
+el.className="message "+type;
+el.style.display="block";
+}
+
+function hideMessage(el){
+el.style.display="none";
+}
+
+
+/* ESCAPE */
+
+function esc(v){
+if(v===null||v===undefined)return "";
+return String(v)
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+}
+
+
+/* IMAGE SELECT */
+
+productFile.addEventListener("change",function(){
 
-  const db = supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
+selectedFile=this.files[0]||null;
 
+if(!selectedFile){
+imagePreview.style.display="none";
+return;
+}
 
-  /* ==============================
-     ELEMENTS
-  ============================== */
+if(!selectedFile.type.startsWith("image/")){
+message(
+productMessage,
+"Sirf image file select karein.",
+"error"
+);
+this.value="";
+selectedFile=null;
+return;
+}
 
-  const loginBox = document.getElementById("loginBox");
-  const dashboard = document.getElementById("dashboard");
+if(selectedFile.size>5*1024*1024){
+message(
+productMessage,
+"Image 5MB se chhoti honi chahiye.",
+"error"
+);
+this.value="";
+selectedFile=null;
+return;
+}
 
-  const loginBtn = document.getElementById("loginBtn");
-  const logoutBtn = document.getElementById("logoutBtn");
+const reader=new FileReader();
 
-  const loginMessage = document.getElementById("loginMessage");
-  const productMessage = document.getElementById("productMessage");
+reader.onload=function(e){
+imagePreview.src=e.target.result;
+imagePreview.style.display="block";
+};
 
-  const productName = document.getElementById("productName");
-  const productPrice = document.getElementById("productPrice");
-  const productMrp = document.getElementById("productMrp");
-  const productStock = document.getElementById("productStock");
-  const productImage = document.getElementById("productImage");
-  const productDescription = document.getElementById("productDescription");
+reader.readAsDataURL(selectedFile);
 
-  const saveBtn = document.getElementById("saveBtn");
-  const cancelBtn = document.getElementById("cancelBtn");
+});
 
-  const productsList = document.getElementById("productsList");
 
-  let editingId = null;
+/* LOGIN */
 
+loginBtn.addEventListener("click",async()=>{
 
-  /* ==============================
-     MESSAGE
-  ============================== */
+hideMessage(loginMessage);
 
-  function showMessage(element, message, type) {
+const email=document.getElementById("email").value.trim();
+const password=document.getElementById("password").value;
 
-    element.textContent = message;
+if(!email||!password){
+message(
+loginMessage,
+"Email aur password enter karein.",
+"error"
+);
+return;
+}
 
-    element.className = "message " + type;
+loginBtn.disabled=true;
+loginBtn.textContent="Logging in...";
 
-    element.style.display = "block";
+const {data,error}=await db.auth.signInWithPassword({
+email,
+password
+});
 
-  }
+if(error){
+message(loginMessage,error.message,"error");
+loginBtn.disabled=false;
+loginBtn.textContent="Login";
+return;
+}
 
+if(!data.session){
+message(
+loginMessage,
+"Login session nahi mili.",
+"error"
+);
+loginBtn.disabled=false;
+loginBtn.textContent="Login";
+return;
+}
 
-  function hideMessage(element) {
+loginBox.classList.add("hidden");
+dashboard.classList.remove("hidden");
 
-    element.style.display = "none";
+loginBtn.disabled=false;
+loginBtn.textContent="Login";
 
-  }
+loadProducts();
 
+});
 
-  /* ==============================
-     ESCAPE HTML
-  ============================== */
 
-  function escapeHTML(value) {
+/* SESSION */
 
-    if (value === null || value === undefined) {
-      return "";
-    }
+async function checkSession(){
 
-    return String(value)
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
+const {data:{session}}=await db.auth.getSession();
 
-  }
+if(session){
+loginBox.classList.add("hidden");
+dashboard.classList.remove("hidden");
+loadProducts();
+}
 
+}
 
-  /* ==============================
-     LOGIN
-  ============================== */
 
-  loginBtn.addEventListener("click", async function() {
+/* LOAD PRODUCTS */
 
-    hideMessage(loginMessage);
+async function loadProducts(){
 
-    const email =
-      document.getElementById("email").value.trim();
+productsList.innerHTML="Loading products...";
 
-    const password =
-      document.getElementById("password").value;
+const {data,error}=await db
+.from("products")
+.select("*")
+.order("name");
 
-    if (!email || !password) {
+if(error){
+productsList.innerHTML=
+"Products load nahi ho rahe: "+esc(error.message);
+return;
+}
 
-      showMessage(
-        loginMessage,
-        "Email aur password enter karein.",
-        "error"
-      );
+updateStats(data||[]);
+renderProducts(data||[]);
 
-      return;
-    }
+}
 
-    loginBtn.disabled = true;
-    loginBtn.textContent = "Logging in...";
 
+/* STATS */
 
-    const { data, error } =
-      await db.auth.signInWithPassword({
-        email: email,
-        password: password
-      });
+function updateStats(products){
 
+document.getElementById("totalProducts").textContent=
+products.length;
 
-    if (error) {
+let stock=products.reduce(
+(sum,p)=>sum+Number(p.stock||0),0
+);
 
-      showMessage(
-        loginMessage,
-        error.message,
-        "error"
-      );
+document.getElementById("totalStock").textContent=stock;
 
-      loginBtn.disabled = false;
-      loginBtn.textContent = "Login";
+let active=products.filter(
+p=>p.is_active===true
+).length;
 
-      return;
-    }
+document.getElementById("activeProducts").textContent=active;
 
+}
 
-    if (!data.session) {
 
-      showMessage(
-        loginMessage,
-        "Login session nahi mili.",
-        "error"
-      );
+/* RENDER */
 
-      loginBtn.disabled = false;
-      loginBtn.textContent = "Login";
+function renderProducts(products){
 
-      return;
-    }
+if(!products.length){
+productsList.innerHTML="<p>No products found.</p>";
+return;
+}
 
+productsList.innerHTML=products.map(p=>{
 
-    loginBox.classList.add("hidden");
-    dashboard.classList.remove("hidden");
+const image=p.image_url||
+"https://via.placeholder.com/300x200?text=QELVIZO";
 
-    loginBtn.disabled = false;
-    loginBtn.textContent = "Login";
+return `
+<div class="product">
 
-    await loadProducts();
+<img src="${esc(image)}"
+onerror="this.src='https://via.placeholder.com/300x200?text=QELVIZO'">
 
-  });
+<div class="product-info">
 
+<div class="product-name">
+${esc(p.name)}
+</div>
 
-  /* ==============================
-     CHECK EXISTING SESSION
-  ============================== */
+<div>
+<span class="price">₹${esc(p.price)}</span>
+<span class="mrp">₹${esc(p.mrp)}</span>
+</div>
 
-  async function checkSession() {
+<div class="stock">
+Stock: ${esc(p.stock)}
+</div>
 
-    const {
-      data: { session }
-    } = await db.auth.getSession();
+<div class="stock">
+Status: ${p.is_active?"Active":"Inactive"}
+</div>
 
+<p>${esc(p.description||"")}</p>
 
-    if (session) {
+<div class="actions">
 
-      loginBox.classList.add("hidden");
-      dashboard.classList.remove("hidden");
+<button class="secondary"
+onclick="editProduct('${p.id}')">
+Edit
+</button>
 
-      await loadProducts();
+<button class="success"
+onclick="toggleProduct('${p.id}',${p.is_active})">
+${p.is_active?"Disable":"Enable"}
+</button>
 
-    }
+<button class="danger"
+onclick="deleteProduct('${p.id}')">
+Delete
+</button>
 
-  }
+</div>
 
+</div>
+</div>
+`;
 
-  /* ==============================
-     LOAD PRODUCTS
-  ============================== */
+}).join("");
 
-  async function loadProducts() {
+}
 
-    productsList.innerHTML =
-      "Loading products...";
 
+/* UPLOAD IMAGE */
 
-    const {
-      data,
-      error
-    } = await db
-      .from("products")
-      .select("*")
-      .order("name");
+async function uploadImage(file,userId){
 
+const extension=file.name.split(".").pop().toLowerCase();
 
-    if (error) {
+const fileName=
+Date.now()+"-"+Math.random().toString(36).substring(2,9)
++"."+extension;
 
-      productsList.innerHTML =
-        "<p>Products load nahi ho rahe: "
-        + escapeHTML(error.message)
-        + "</p>";
+const filePath=
+userId+"/"+fileName;
 
-      return;
-    }
+const {error}=await db.storage
+.from("product-images")
+.upload(filePath,file,{
+cacheControl:"3600",
+upsert:false
+});
 
+if(error){
+throw error;
+}
 
-    updateStats(data || []);
+const {data}=db.storage
+.from("product-images")
+.getPublicUrl(filePath);
 
-    renderProducts(data || []);
+return data.publicUrl;
 
-  }
+}
 
 
-  /* ==============================
-     STATS
-  ============================== */
+/* SAVE PRODUCT */
 
-  function updateStats(products) {
+saveBtn.addEventListener("click",async()=>{
 
-    document.getElementById(
-      "totalProducts"
-    ).textContent = products.length;
+hideMessage(productMessage);
 
+const name=productName.value.trim();
+const description=productDescription.value.trim();
+const price=Number(productPrice.value);
+const mrp=Number(productMrp.value);
+const stock=Number(productStock.value);
 
-    const totalStock =
-      products.reduce(
-        (sum, product) =>
-          sum + Number(product.stock || 0),
-        0
-      );
+if(!name){
+message(productMessage,"Product name required hai.","error");
+return;
+}
 
+if(isNaN(price)||price<0){
+message(productMessage,"Valid selling price enter karein.","error");
+return;
+}
 
-    document.getElementById(
-      "totalStock"
-    ).textContent = totalStock;
+if(isNaN(mrp)||mrp<0){
+message(productMessage,"Valid MRP enter karein.","error");
+return;
+}
 
+if(isNaN(stock)||stock<0){
+message(productMessage,"Valid stock quantity enter karein.","error");
+return;
+}
 
-    const active =
-      products.filter(
-        product => product.is_active === true
-      ).length;
+saveBtn.disabled=true;
+saveBtn.textContent=editingId?"Updating...":"Saving...";
 
+try{
 
-    document.getElementById(
-      "activeProducts"
-    ).textContent = active;
+const {
+data:{user}
+}=await db.auth.getUser();
 
-  }
+if(!user){
+throw new Error("Owner login session expired. Dobara login karein.");
+}
 
+let imageUrl=oldImageUrl;
 
-  /* ==============================
-     RENDER PRODUCTS
-  ============================== */
+if(selectedFile){
 
-  function renderProducts(products) {
+message(
+productMessage,
+"Image upload ho rahi hai...",
+"ok"
+);
 
-    if (!products.length) {
+imageUrl=await uploadImage(
+selectedFile,
+user.id
+);
 
-      productsList.innerHTML =
-        "<p>No products found.</p>";
+}
 
-      return;
-    }
+const productData={
+name:name,
+description:description||null,
+price:price,
+mrp:mrp,
+image_url:imageUrl||null,
+stock:stock,
+is_active:true
+};
 
+let result;
 
-    productsList.innerHTML =
-      products.map(product => {
+if(editingId){
 
-        const image =
-          product.image_url ||
-          "https://via.placeholder.com/300x200?text=QELVIZO";
+result=await db
+.from("products")
+.update(productData)
+.eq("id",editingId);
 
+}else{
 
-        return `
+result=await db
+.from("products")
+.insert([productData]);
 
-          <div class="product">
+}
 
-            <img
-              src="${escapeHTML(image)}"
-              alt="${escapeHTML(product.name)}"
-              onerror="this.src='https://via.placeholder.com/300x200?text=QELVIZO'"
-            >
+if(result.error){
+throw result.error;
+}
 
-            <div class="product-info">
+message(
+productMessage,
+editingId?
+"Product successfully updated!":
+"Product successfully added!",
+"ok"
+);
 
-              <div class="product-name">
-                ${escapeHTML(product.name)}
-              </div>
+clearForm();
+await loadProducts();
 
-              <div>
-                <span class="price">
-                  ₹${escapeHTML(product.price)}
-                </span>
+}catch(error){
 
-                <span class="mrp">
-                  ₹${escapeHTML(product.mrp)}
-                </span>
-              </div>
+message(
+productMessage,
+"Save nahi hua: "+error.message,
+"error"
+);
 
-              <div class="stock">
-                Stock: ${escapeHTML(product.stock)}
-              </div>
+}
 
-              <div class="stock">
-                Status:
-                ${
-                  product.is_active
-                  ? "Active"
-                  : "Inactive"
-                }
-              </div>
+saveBtn.disabled=false;
+saveBtn.textContent="Save Product";
 
-              <p>
-                ${escapeHTML(product.description || "")}
-              </p>
+});
 
-              <div class="actions">
 
-                <button
-                  class="secondary"
-                  onclick="editProduct('${product.id}')"
-                >
-                  Edit
-                </button>
+/* EDIT */
 
-                <button
-                  class="success"
-                  onclick="toggleProduct('${product.id}', ${product.is_active})"
-                >
-                  ${
-                    product.is_active
-                    ? "Disable"
-                    : "Enable"
-                  }
-                </button>
+window.editProduct=async function(id){
 
-                <button
-                  class="danger"
-                  onclick="deleteProduct('${product.id}')"
-                >
-                  Delete
-                </button>
+const {data,error}=await db
+.from("products")
+.select("*")
+.eq("id",id)
+.single();
 
-              </div>
+if(error){
+alert(error.message);
+return;
+}
 
-            </div>
+editingId=id;
+oldImageUrl=data.image_url||null;
 
-          </div>
+productName.value=data.name||"";
+productPrice.value=data.price??"";
+productMrp.value=data.mrp??"";
+productStock.value=data.stock??"";
+productDescription.value=data.description||"";
 
-        `;
+selectedFile=null;
+productFile.value="";
 
-      }).join("");
+if(data.image_url){
+imagePreview.src=data.image_url;
+imagePreview.style.display="block";
+}else{
+imagePreview.style.display="none";
+}
 
-  }
+document.getElementById("formTitle").textContent=
+"Edit Product";
 
+saveBtn.textContent="Update Product";
 
-  /* ==============================
-     SAVE PRODUCT
-  ============================== */
+cancelBtn.classList.remove("hidden");
 
-  saveBtn.addEventListener("click", async function() {
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
 
-    hideMessage(productMessage);
+};
 
 
-    const name =
-      productName.value.trim();
+/* CANCEL */
 
-    const description =
-      productDescription.value.trim();
+cancelBtn.addEventListener("click",clearForm);
 
-    const price =
-      Number(productPrice.value);
+function clearForm(){
 
-    const mrp =
-      Number(productMrp.value);
+editingId=null;
+oldImageUrl=null;
+selectedFile=null;
 
-    const stock =
-      Number(productStock.value);
+productName.value="";
+productPrice.value="";
+productMrp.value="";
+productStock.value="";
+productDescription.value="";
+productFile.value="";
 
-    const image_url =
-      productImage.value.trim();
+imagePreview.src="";
+imagePreview.style.display="none";
 
+document.getElementById("formTitle").textContent=
+"Add Product";
 
-    if (!name) {
+saveBtn.textContent="Save Product";
 
-      showMessage(
-        productMessage,
-        "Product name required hai.",
-        "error"
-      );
+cancelBtn.classList.add("hidden");
 
-      return;
-    }
+}
 
 
-    if (!price || price < 0) {
+/* TOGGLE */
 
-      showMessage(
-        productMessage,
-        "Valid selling price enter karein.",
-        "error"
-      );
+window.toggleProduct=async function(id,status){
 
-      return;
-    }
+const {error}=await db
+.from("products")
+.update({is_active:!status})
+.eq("id",id);
 
+if(error){
+alert(error.message);
+return;
+}
 
-    if (!mrp || mrp < 0) {
+loadProducts();
 
-      showMessage(
-        productMessage,
-        "Valid MRP enter karein.",
-        "error"
-      );
+};
 
-      return;
-    }
 
+/* DELETE */
 
-    if (stock < 0 || isNaN(stock)) {
+window.deleteProduct=async function(id){
 
-      showMessage(
-        productMessage,
-        "Valid stock quantity enter karein.",
-        "error"
-      );
+if(!confirm("Kya aap ye product delete karna chahte hain?")){
+return;
+}
 
-      return;
-    }
+const {error}=await db
+.from("products")
+.delete()
+.eq("id",id);
 
+if(error){
+alert(error.message);
+return;
+}
 
-    saveBtn.disabled = true;
-    saveBtn.textContent =
-      editingId
-      ? "Updating..."
-      : "Saving...";
+loadProducts();
 
+};
 
-    const productData = {
 
-      name: name,
+/* LOGOUT */
 
-      description:
-        description || null,
+logoutBtn.addEventListener("click",async()=>{
 
-      price: price,
+await db.auth.signOut();
 
-      mrp: mrp,
+dashboard.classList.add("hidden");
+loginBox.classList.remove("hidden");
 
-      image_url:
-        image_url || null,
+clearForm();
 
-      stock: stock,
+});
 
-      is_active: true
 
-    };
-
-
-    let result;
-
-
-    if (editingId) {
-
-      result =
-        await db
-          .from("products")
-          .update(productData)
-          .eq("id", editingId);
-
-    } else {
-
-      result =
-        await db
-          .from("products")
-          .insert([productData]);
-
-    }
-
-
-    if (result.error) {
-
-      showMessage(
-        productMessage,
-        "Product save nahi hua: "
-        + result.error.message,
-        "error"
-      );
-
-      saveBtn.disabled = false;
-      saveBtn.textContent =
-        editingId
-        ? "Update Product"
-        : "Save Product";
-
-      return;
-    }
-
-
-    showMessage(
-      productMessage,
-      editingId
-      ? "Product successfully updated!"
-      : "Product successfully added!",
-      "ok"
-    );
-
-
-    clearForm();
-
-    await loadProducts();
-
-
-    saveBtn.disabled = false;
-    saveBtn.textContent = "Save Product";
-
-  });
-
-
-  /* ==============================
-     EDIT PRODUCT
-  ============================== */
-
-  window.editProduct = async function(id) {
-
-    const {
-      data,
-      error
-    } = await db
-      .from("products")
-      .select("*")
-      .eq("id", id)
-      .single();
-
-
-    if (error) {
-
-      alert(error.message);
-
-      return;
-    }
-
-
-    editingId = id;
-
-
-    productName.value =
-      data.name || "";
-
-    productPrice.value =
-      data.price ?? "";
-
-    productMrp.value =
-      data.mrp ?? "";
-
-    productStock.value =
-      data.stock ?? "";
-
-    productImage.value =
-      data.image_url || "";
-
-    productDescription.value =
-      data.description || "";
-
-
-    document.getElementById(
-      "formTitle"
-    ).textContent = "Edit Product";
-
-
-    saveBtn.textContent =
-      "Update Product";
-
-
-    cancelBtn.classList.remove(
-      "hidden"
-    );
-
-
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
-
-  };
-
-
-  /* ==============================
-     CANCEL EDIT
-  ============================== */
-
-  cancelBtn.addEventListener(
-    "click",
-    function() {
-
-      clearForm();
-
-    }
-  );
-
-
-  function clearForm() {
-
-    editingId = null;
-
-    productName.value = "";
-    productPrice.value = "";
-    productMrp.value = "";
-    productStock.value = "";
-    productImage.value = "";
-    productDescription.value = "";
-
-    document.getElementById(
-      "formTitle"
-    ).textContent = "Add Product";
-
-    saveBtn.textContent =
-      "Save Product";
-
-    cancelBtn.classList.add(
-      "hidden"
-    );
-
-  }
-
-
-  /* ==============================
-     TOGGLE ACTIVE
-  ============================== */
-
-  window.toggleProduct = async function(
-    id,
-    currentStatus
-  ) {
-
-    const {
-      error
-    } = await db
-      .from("products")
-      .update({
-        is_active: !currentStatus
-      })
-      .eq("id", id);
-
-
-    if (error) {
-
-      alert(
-        "Status update nahi hua: "
-        + error.message
-      );
-
-      return;
-    }
-
-
-    await loadProducts();
-
-  };
-
-
-  /* ==============================
-     DELETE PRODUCT
-  ============================== */
-
-  window.deleteProduct = async function(id) {
-
-    const confirmed =
-      confirm(
-        "Kya aap ye product delete karna chahte hain?"
-      );
-
-
-    if (!confirmed) {
-      return;
-    }
-
-
-    const {
-      error
-    } = await db
-      .from("products")
-      .delete()
-      .eq("id", id);
-
-
-    if (error) {
-
-      alert(
-        "Product delete nahi hua: "
-        + error.message
-      );
-
-      return;
-    }
-
-
-    await loadProducts();
-
-  };
-
-
-  /* ==============================
-     LOGOUT
-  ============================== */
-
-  logoutBtn.addEventListener(
-    "click",
-    async function() {
-
-      await db.auth.signOut();
-
-      dashboard.classList.add(
-        "hidden"
-      );
-
-      loginBox.classList.remove(
-        "hidden"
-      );
-
-      clearForm();
-
-    }
-  );
-
-
-  /* ==============================
-     START
-  ============================== */
-
-  checkSession();
+checkSession();
 
 </script>
-
 </body>
 </html>
