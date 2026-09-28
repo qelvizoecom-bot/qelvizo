@@ -1,586 +1,347 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>QELVIZO | Smart Products. Better Living.</title>
-<meta name="description" content="QELVIZO garden, home and utility products.">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QELVIZO - Smart Products. Better Living.</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-:root{
---b:#174f35;
---d:#101614;
---m:#68736d;
---l:#e5e9e6;
-}
-
 *{box-sizing:border-box}
-
 body{
-margin:0;
-font-family:Arial,sans-serif;
-color:var(--d);
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f7f7f7;
+  color:#222;
 }
-
-a{
-text-decoration:none;
-color:inherit;
+header{
+  background:#111;
+  color:white;
+  padding:16px 5%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  position:sticky;
+  top:0;
+  z-index:100;
 }
-
-.top{
-background:var(--d);
-color:#fff;
-text-align:center;
-padding:9px;
-font-size:13px;
-}
-
-.nav{
-position:sticky;
-top:0;
-background:#fff;
-border-bottom:1px solid var(--l);
-padding:16px 6%;
-display:flex;
-justify-content:space-between;
-align-items:center;
-z-index:5;
-}
-
 .logo{
-font-weight:900;
-letter-spacing:2px;
-font-size:25px;
+  font-size:25px;
+  font-weight:bold;
+  letter-spacing:2px;
 }
-
-.links{
-display:flex;
-gap:25px;
-font-weight:700;
-font-size:14px;
+.cart-btn{
+  background:white;
+  color:#111;
+  border:0;
+  padding:10px 16px;
+  border-radius:8px;
+  font-weight:bold;
+  cursor:pointer;
 }
-
 .hero{
-padding:75px 6%;
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:45px;
-align-items:center;
-background:linear-gradient(135deg,#edf5ef,#faf9f4);
+  padding:70px 20px;
+  text-align:center;
+  background:linear-gradient(135deg,#111,#444);
+  color:white;
 }
-
-.hero h1{
-font-size:clamp(42px,6vw,70px);
-line-height:1;
-margin:15px 0;
+.hero h1{font-size:42px;margin:0 0 12px}
+.hero p{font-size:18px}
+.container{
+  max-width:1200px;
+  margin:auto;
+  padding:40px 20px;
 }
-
-.ey{
-color:var(--b);
-font-weight:800;
-letter-spacing:2px;
-font-size:13px;
+.section-title{
+  text-align:center;
+  margin-bottom:30px;
 }
-
-.hero p,.sub{
-color:var(--m);
-line-height:1.7;
+.products{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:22px;
 }
-
-.buttons{
-display:flex;
-gap:12px;
-flex-wrap:wrap;
-margin-top:24px;
+.product{
+  background:white;
+  border-radius:14px;
+  overflow:hidden;
+  box-shadow:0 3px 15px rgba(0,0,0,.08);
+  padding-bottom:18px;
 }
-
+.product img{
+  width:100%;
+  height:220px;
+  object-fit:cover;
+  background:#eee;
+}
+.product-info{padding:16px}
+.product h3{margin:0 0 8px}
+.desc{
+  color:#666;
+  font-size:14px;
+  min-height:38px;
+}
+.price{
+  font-size:22px;
+  font-weight:bold;
+  margin:12px 0;
+}
+.mrp{
+  color:#888;
+  text-decoration:line-through;
+  font-size:14px;
+  margin-left:6px;
+}
+.stock{
+  color:#188038;
+  font-size:13px;
+  margin-bottom:12px;
+}
 .btn{
-padding:14px 20px;
-border-radius:9px;
-border:1px solid var(--d);
-font-weight:800;
-display:inline-block;
+  width:100%;
+  padding:12px;
+  border:0;
+  border-radius:8px;
+  background:#111;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
 }
-
-.primary{
-background:var(--d);
-color:white;
+.btn:disabled{
+  background:#aaa;
+  cursor:not-allowed;
 }
-
-.visual{
-height:390px;
-border-radius:28px;
-background:#dfeadf;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:125px;
-}
-
-.section{
-padding:65px 6%;
-}
-
-.section h2{
-font-size:34px;
-margin:0 0 8px;
-}
-
-.grid{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:18px;
-}
-
-.card{
-border:1px solid var(--l);
-border-radius:16px;
-padding:28px 20px;
-}
-
-.ico{
-font-size:42px;
-}
-
-.card b{
-display:block;
-margin:14px 0 5px;
-}
-
-.product-list{
-display:grid;
-gap:24px;
-margin-top:25px;
-}
-
-.product-card{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:40px;
-padding:30px;
-border-radius:24px;
-background:#f5f7f5;
-align-items:center;
-}
-
-.pimg{
-height:390px;
-border-radius:18px;
-background:linear-gradient(145deg,#e2ece4,#d5ded7);
-display:flex;
-align-items:center;
-justify-content:center;
-overflow:hidden;
-}
-
-.pimg img{
-width:100%;
-height:100%;
-object-fit:cover;
-}
-
-.product-card h3{
-font-size:34px;
-margin:10px 0;
-}
-
-.description{
-color:var(--m);
-line-height:1.7;
-}
-
-.price-row{
-display:flex;
-align-items:center;
-gap:12px;
-margin:18px 0;
-}
-
-.sell-price{
-font-size:26px;
-font-weight:800;
-}
-
-.old-price{
-color:var(--m);
-text-decoration:line-through;
-}
-
-.chips{
-display:flex;
-gap:8px;
-flex-wrap:wrap;
-margin:18px 0;
-}
-
-.chip{
-background:#fff;
-border:1px solid var(--l);
-padding:8px 12px;
-border-radius:30px;
-font-size:13px;
-}
-
-.stock-ok{
-color:#174f35;
-font-weight:700;
-}
-
-.stock-out{
-color:#b42318;
-font-weight:700;
-}
-
-.empty-products{
-padding:30px;
-border:1px dashed #cbd5cf;
-border-radius:16px;
-color:var(--m);
-}
-
 .about{
-background:var(--d);
-color:white;
+  background:white;
+  margin-top:30px;
+  padding:35px 20px;
+  text-align:center;
+}
+footer{
+  background:#111;
+  color:white;
+  text-align:center;
+  padding:25px;
+  margin-top:40px;
 }
 
-.about p{
-max-width:800px;
-color:#c8d0cb;
-line-height:1.8;
+/* CART */
+.overlay{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.55);
+  z-index:200;
+}
+.cart-box{
+  position:absolute;
+  right:0;
+  top:0;
+  height:100%;
+  width:min(430px,100%);
+  background:white;
+  padding:20px;
+  overflow:auto;
+}
+.close{
+  float:right;
+  font-size:25px;
+  border:0;
+  background:none;
+  cursor:pointer;
+}
+.cart-item{
+  display:flex;
+  gap:12px;
+  padding:15px 0;
+  border-bottom:1px solid #ddd;
+}
+.cart-item img{
+  width:70px;
+  height:70px;
+  object-fit:cover;
+  border-radius:8px;
+}
+.qty{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  margin-top:8px;
+}
+.qty button{
+  width:28px;
+  height:28px;
+  border:1px solid #ccc;
+  background:white;
+  border-radius:5px;
+}
+.total{
+  font-size:22px;
+  font-weight:bold;
+  padding:20px 0;
 }
 
-.footer{
-background:#090d0b;
-color:#fff;
-padding:45px 6% 25px;
+/* CHECKOUT */
+.checkout{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.55);
+  z-index:300;
+  overflow:auto;
 }
-
-.foot{
-display:grid;
-grid-template-columns:2fr 1fr 1fr;
-gap:30px;
+.checkout-box{
+  background:white;
+  width:min(500px,94%);
+  margin:30px auto;
+  border-radius:14px;
+  padding:25px;
 }
-
-.footer a,.footer p{
-color:#aab3ad;
-font-size:14px;
-line-height:1.9;
+.input{
+  width:100%;
+  padding:13px;
+  margin:7px 0 14px;
+  border:1px solid #ccc;
+  border-radius:8px;
+  font-size:15px;
 }
-
-.copy{
-border-top:1px solid #26302b;
-margin-top:25px;
-padding-top:18px;
-color:#7f8982;
-font-size:12px;
+textarea.input{
+  min-height:100px;
+  resize:vertical;
 }
-
-@media(max-width:800px){
-
-.links{
-display:none;
+.cod{
+  padding:13px;
+  background:#f2f2f2;
+  border-radius:8px;
+  margin-bottom:18px;
 }
-
-.hero{
-grid-template-columns:1fr;
+.success{
+  text-align:center;
+  padding:30px 10px;
 }
-
-.grid{
-grid-template-columns:repeat(2,1fr);
-}
-
-.product-card{
-grid-template-columns:1fr;
-}
-
-.visual{
-height:280px;
-}
-
-.pimg{
-height:280px;
-}
-
-.foot{
-grid-template-columns:1fr;
-}
-
-.section{
-padding:50px 5%;
-}
-
-}
-
-@media(max-width:500px){
-
-.grid{
-grid-template-columns:1fr;
-}
-
-.product-card{
-padding:18px;
-}
-
-.product-card h3{
-font-size:28px;
-}
-
+.order-id{
+  font-size:14px;
+  word-break:break-all;
+  background:#f2f2f2;
+  padding:10px;
+  border-radius:7px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="top">
-Quality-focused products • Designed for everyday use
-</div>
+<header>
+  <div class="logo">QELVIZO</div>
+  <button class="cart-btn" onclick="openCart()">
+    🛒 Cart (<span id="cartCount">0</span>)
+  </button>
+</header>
 
-<nav class="nav">
-
-<a class="logo" href="#">
-QELVIZO
-</a>
-
-<div class="links">
-<a href="#home">Home</a>
-<a href="#shop">Shop</a>
-<a href="#categories">Categories</a>
-<a href="#about">About</a>
-<a href="#contact">Contact</a>
-</div>
-
-</nav>
-
-
-<section class="hero" id="home">
-
-<div>
-
-<div class="ey">
-QELVIZO • EVERYDAY ESSENTIALS
-</div>
-
-<h1>
-Smart Products.<br>
-Better Living.
-</h1>
-
-<p>
-Discover practical garden, home and utility products selected for everyday needs—with a clean, modern QELVIZO experience.
-</p>
-
-<div class="buttons">
-
-<a class="btn primary" href="#shop">
-Shop Products
-</a>
-
-<a class="btn"
-href="https://www.amazon.in/dp/B0HKBXHFCP"
-target="_blank">
-View on Amazon ↗
-</a>
-
-</div>
-
-</div>
-
-<div class="visual">
-🌱
-</div>
-
+<section class="hero">
+  <h1>Smart Products. Better Living.</h1>
+  <p>Discover useful products for your home, kitchen and garden.</p>
 </section>
 
+<section class="container">
+  <h2 class="section-title">Our Products</h2>
 
-<section class="section" id="categories">
-
-<h2>
-Shop by Category
-</h2>
-
-<div class="sub">
-Explore useful products for home, garden and everyday work.
-</div>
-
-<div class="grid">
-
-<a class="card" href="#shop">
-<div class="ico">🌱</div>
-<b>Garden Tools</b>
-<span class="sub">Practical garden essentials</span>
-</a>
-
-<a class="card" href="#shop">
-<div class="ico">🏠</div>
-<b>Home & Living</b>
-<span class="sub">Useful home products</span>
-</a>
-
-<a class="card" href="#shop">
-<div class="ico">🔧</div>
-<b>Utility</b>
-<span class="sub">Everyday products</span>
-</a>
-
-<a class="card" href="#shop">
-<div class="ico">✨</div>
-<b>New Arrivals</b>
-<span class="sub">Fresh QELVIZO products</span>
-</a>
-
-</div>
-
+  <div id="products" class="products">
+    <p>Loading products...</p>
+  </div>
 </section>
 
-
-<section class="section" id="shop">
-
-<h2>
-Our Products
-</h2>
-
-<div class="sub">
-Latest QELVIZO products
-</div>
-
-<div id="qelvizoProducts" class="product-list">
-
-<div class="sub">
-Loading products...
-</div>
-
-</div>
-
+<section class="about">
+  <h2>Why QELVIZO?</h2>
+  <p>
+    Quality products, useful designs and better everyday living.
+  </p>
 </section>
 
-
-<section class="section">
-
-<h2>
-Why QELVIZO?
-</h2>
-
-<div class="sub">
-Built around simple, useful products.
-</div>
-
-<div class="grid">
-
-<div class="card">
-<div class="ico">✓</div>
-<b>Quality Focus</b>
-<p class="sub">
-Selected with everyday usability in mind.
-</p>
-</div>
-
-<div class="card">
-<div class="ico">◈</div>
-<b>Practical Design</b>
-<p class="sub">
-Simple products for real-life needs.
-</p>
-</div>
-
-<div class="card">
-<div class="ico">↗</div>
-<b>Easy Shopping</b>
-<p class="sub">
-Shop through trusted marketplaces.
-</p>
-</div>
-
-<div class="card">
-<div class="ico">♡</div>
-<b>Customer First</b>
-<p class="sub">
-A clean shopping experience.
-</p>
-</div>
-
-</div>
-
-</section>
-
-
-<section class="section about" id="about">
-
-<h2>
-About QELVIZO
-</h2>
-
-<p>
-QELVIZO is an everyday-products brand focused on practical garden, home and utility products. Our goal is simple: useful products with a clean, reliable shopping experience.
-</p>
-
-</section>
-
-
-<footer class="footer" id="contact">
-
-<div class="foot">
-
-<div>
-
-<div class="logo">
-QELVIZO
-</div>
-
-<p>
-Smart Products. Better Living.
-</p>
-
-</div>
-
-<div>
-
-<b>Quick Links</b>
-
-<p>
-<a href="#home">Home</a><br>
-<a href="#shop">Shop</a><br>
-<a href="#about">About</a>
-</p>
-
-</div>
-
-<div>
-
-<b>Shop</b>
-
-<p>
-<a href="https://www.amazon.in/dp/B0HKBXHFCP"
-target="_blank">
-Amazon
-</a>
-
-<br>
-
-<a href="https://meesho.com/garden-rake/p/hzgu7p?_ms=1.2"
-target="_blank">
-Meesho
-</a>
-
-</p>
-
-</div>
-
-</div>
-
-<div class="copy">
-© 2026 QELVIZO. All rights reserved.
-</div>
-
+<footer>
+  <p>© 2026 QELVIZO. All Rights Reserved.</p>
 </footer>
 
 
-<script>
+<!-- CART -->
+<div id="cartOverlay" class="overlay">
+  <div class="cart-box">
 
-/* =========================
-   SUPABASE CONNECTION
-========================= */
+    <button class="close" onclick="closeCart()">×</button>
+
+    <h2>🛒 Your Cart</h2>
+
+    <div id="cartItems"></div>
+
+    <div class="total">
+      Total: ₹<span id="cartTotal">0</span>
+    </div>
+
+    <button class="btn" id="checkoutBtn" onclick="openCheckout()">
+      Proceed to Checkout
+    </button>
+
+  </div>
+</div>
+
+
+<!-- CHECKOUT -->
+<div id="checkoutOverlay" class="checkout">
+
+  <div class="checkout-box">
+
+    <button class="close" onclick="closeCheckout()">×</button>
+
+    <h2>Checkout</h2>
+
+    <p>Please enter your delivery details.</p>
+
+    <label>Full Name</label>
+    <input
+      id="customerName"
+      class="input"
+      type="text"
+      placeholder="Enter your full name"
+    >
+
+    <label>Phone Number</label>
+    <input
+      id="customerPhone"
+      class="input"
+      type="tel"
+      placeholder="Enter 10 digit mobile number"
+      maxlength="10"
+    >
+
+    <label>Delivery Address</label>
+    <textarea
+      id="customerAddress"
+      class="input"
+      placeholder="House no., street, village/city, state, pincode"
+    ></textarea>
+
+    <div class="cod">
+      <strong>💵 Payment Method</strong>
+      <br>
+      Cash on Delivery (COD)
+    </div>
+
+    <div class="total">
+      Order Total: ₹<span id="checkoutTotal">0</span>
+    </div>
+
+    <button class="btn" id="placeOrderBtn" onclick="placeOrder()">
+      Place Order
+    </button>
+
+    <div id="checkoutMessage"></div>
+
+  </div>
+</div>
+
+
+<script>
 
 const SUPABASE_URL =
 "https://oogibbmsiiarceczqgfa.supabase.co";
@@ -588,266 +349,495 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
 "sb_publishable_VLedtJ2r9K4fC00T4k8CgA_ahfpM1dh";
 
-const qelvizoDB =
-supabase.createClient(
-SUPABASE_URL,
-SUPABASE_KEY
+const db = supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
 );
 
-
-/* =========================
-   PRODUCTS AREA
-========================= */
-
-const productsBox =
-document.getElementById("qelvizoProducts");
+let products = [];
+let cart = JSON.parse(localStorage.getItem("qelvizoCart") || "[]");
 
 
-/* =========================
-   SECURITY ESCAPE
-========================= */
+/* LOAD PRODUCTS */
 
-function escapeHTML(value){
+async function loadProducts(){
 
-if(value === null ||
-value === undefined){
+  const { data, error } = await db
+    .from("products")
+    .select("id,name,description,price,mrp,image_url,stock,is_active")
+    .eq("is_active", true)
+    .order("name");
 
-return "";
-}
+  const box = document.getElementById("products");
 
-return String(value)
-.replace(/&/g,"&amp;")
-.replace(/</g,"&lt;")
-.replace(/>/g,"&gt;")
-.replace(/"/g,"&quot;")
-.replace(/'/g,"&#039;");
+  if(error){
+    box.innerHTML =
+      "<p>Unable to load products.</p>";
+    console.error(error);
+    return;
+  }
 
-}
+  products = data || [];
 
+  if(products.length === 0){
+    box.innerHTML =
+      "<p>No products available right now.</p>";
+    return;
+  }
 
-/* =========================
-   PRODUCT CARD
-========================= */
+  box.innerHTML = products.map(p => {
 
-function createProductCard(product){
+    const soldOut = Number(p.stock || 0) <= 0;
 
-const image =
-product.image_url ||
-"https://via.placeholder.com/700x500?text=QELVIZO";
+    return `
+      <div class="product">
 
-const price =
-Number(product.price || 0)
-.toLocaleString("en-IN");
+        <img
+          src="${escapeHtml(p.image_url || "")}"
+          alt="${escapeHtml(p.name)}"
+          onerror="this.src='https://via.placeholder.com/500x500?text=QELVIZO'"
+        >
 
-const mrp =
-Number(product.mrp || 0)
-.toLocaleString("en-IN");
+        <div class="product-info">
 
-const stock =
-Number(product.stock || 0);
+          <h3>${escapeHtml(p.name)}</h3>
 
-let stockHTML;
+          <div class="desc">
+            ${escapeHtml(p.description || "")}
+          </div>
 
-if(stock > 0){
+          <div class="price">
+            ₹${Number(p.price || 0)}
+            ${
+              p.mrp
+              ? `<span class="mrp">₹${Number(p.mrp)}</span>`
+              : ""
+            }
+          </div>
 
-stockHTML =
-'<span class="stock-ok">✓ In Stock</span>';
+          <div class="stock">
+            ${
+              soldOut
+              ? "Out of Stock"
+              : `${Number(p.stock)} available`
+            }
+          </div>
 
-}else{
+          <button
+            class="btn"
+            onclick="addToCart('${p.id}')"
+            ${soldOut ? "disabled" : ""}
+          >
+            ${soldOut ? "Out of Stock" : "Add to Cart"}
+          </button>
 
-stockHTML =
-'<span class="stock-out">Out of Stock</span>';
+        </div>
 
-}
+      </div>
+    `;
 
-
-return `
-
-<article class="product-card">
-
-<div class="pimg">
-
-<img
-src="${escapeHTML(image)}"
-alt="${escapeHTML(product.name)}"
-onerror="this.src='https://via.placeholder.com/700x500?text=QELVIZO'"
->
-
-</div>
-
-
-<div>
-
-<div class="ey">
-QELVIZO COLLECTION
-</div>
-
-
-<h3>
-${escapeHTML(product.name)}
-</h3>
-
-
-<p class="description">
-
-${escapeHTML(
-product.description ||
-"Practical QELVIZO product for everyday use."
-)}
-
-</p>
-
-
-<div class="price-row">
-
-<span class="sell-price">
-₹${price}
-</span>
-
-${
-product.mrp
-?
-`<span class="old-price">₹${mrp}</span>`
-:
-""
-}
-
-</div>
-
-
-<div class="chips">
-
-<span class="chip">
-QELVIZO
-</span>
-
-${
-stock > 0
-?
-'<span class="chip">Available</span>'
-:
-'<span class="chip">Currently Unavailable</span>'
-}
-
-</div>
-
-
-<div class="buttons">
-
-<a
-class="btn primary"
-href="#contact">
-Contact to Buy
-</a>
-
-</div>
-
-
-<p>
-${stockHTML}
-</p>
-
-
-</div>
-
-</article>
-
-`;
-
+  }).join("");
 }
 
 
-/* =========================
-   LOAD PRODUCTS
-========================= */
+/* ADD TO CART */
 
-async function loadQelvizoProducts(){
+function addToCart(id){
 
-if(!productsBox){
+  const product = products.find(p => p.id === id);
 
-return;
+  if(!product) return;
+
+  const existing = cart.find(item => item.id === id);
+
+  if(existing){
+
+    if(existing.quantity < Number(product.stock)){
+      existing.quantity++;
+    }else{
+      alert("Maximum available stock reached.");
+      return;
+    }
+
+  }else{
+
+    cart.push({
+      id: product.id,
+      name: product.name,
+      price: Number(product.price || 0),
+      image_url: product.image_url || "",
+      quantity: 1
+    });
+
+  }
+
+  saveCart();
+
+  alert("Product added to cart 🛒");
 }
 
 
-productsBox.innerHTML =
-'<div class="sub">Loading products...</div>';
+/* SAVE CART */
 
+function saveCart(){
 
-const {
+  localStorage.setItem(
+    "qelvizoCart",
+    JSON.stringify(cart)
+  );
 
-data,
-error
-
-} = await qelvizoDB
-
-.from("products")
-
-.select(
-"id,name,description,price,mrp,image_url,stock,is_active"
-)
-
-.eq("is_active",true)
-
-.order("name");
-
-
-if(error){
-
-console.error(
-"QELVIZO product error:",
-error
-);
-
-productsBox.innerHTML = `
-
-<div class="empty-products">
-
-Products load nahi ho pa rahe.
-Please refresh the page.
-
-</div>
-
-`;
-
-return;
-
+  updateCartCount();
 }
 
 
-if(!data ||
-data.length === 0){
+/* CART COUNT */
 
-productsBox.innerHTML = `
+function updateCartCount(){
 
-<div class="empty-products">
+  const count = cart.reduce(
+    (sum,item) => sum + item.quantity,
+    0
+  );
 
-Products coming soon.
-Please check again shortly.
-
-</div>
-
-`;
-
-return;
-
+  document.getElementById("cartCount").textContent = count;
 }
 
 
-productsBox.innerHTML =
-data.map(
-createProductCard
-).join("");
+/* OPEN CART */
 
+function openCart(){
+
+  renderCart();
+
+  document.getElementById("cartOverlay").style.display =
+    "block";
 }
 
 
-/* =========================
-   START
-========================= */
+/* CLOSE CART */
 
-loadQelvizoProducts();
+function closeCart(){
+
+  document.getElementById("cartOverlay").style.display =
+    "none";
+}
+
+
+/* RENDER CART */
+
+function renderCart(){
+
+  const box =
+    document.getElementById("cartItems");
+
+  const total =
+    document.getElementById("cartTotal");
+
+  if(cart.length === 0){
+
+    box.innerHTML =
+      "<p>Your cart is empty.</p>";
+
+    total.textContent = "0";
+
+    document.getElementById("checkoutBtn").disabled = true;
+
+    return;
+  }
+
+  document.getElementById("checkoutBtn").disabled = false;
+
+  let cartTotal = 0;
+
+  box.innerHTML = cart.map(item => {
+
+    const itemTotal =
+      item.price * item.quantity;
+
+    cartTotal += itemTotal;
+
+    return `
+      <div class="cart-item">
+
+        <img
+          src="${escapeHtml(item.image_url)}"
+          onerror="this.src='https://via.placeholder.com/100?text=QELVIZO'"
+        >
+
+        <div style="flex:1">
+
+          <strong>${escapeHtml(item.name)}</strong>
+
+          <div>
+            ₹${item.price} × ${item.quantity}
+          </div>
+
+          <div class="qty">
+
+            <button onclick="changeQty('${item.id}',-1)">
+              −
+            </button>
+
+            <span>${item.quantity}</span>
+
+            <button onclick="changeQty('${item.id}',1)">
+              +
+            </button>
+
+            <button
+              onclick="removeFromCart('${item.id}')"
+              style="margin-left:8px"
+            >
+              🗑️
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+    `;
+
+  }).join("");
+
+  total.textContent =
+    cartTotal.toFixed(2);
+}
+
+
+/* CHANGE QUANTITY */
+
+function changeQty(id, change){
+
+  const item =
+    cart.find(x => x.id === id);
+
+  if(!item) return;
+
+  const product =
+    products.find(x => x.id === id);
+
+  item.quantity += change;
+
+  if(item.quantity <= 0){
+    removeFromCart(id);
+    return;
+  }
+
+  if(product &&
+     item.quantity > Number(product.stock)){
+
+    item.quantity = Number(product.stock);
+
+    alert("Maximum available stock reached.");
+  }
+
+  saveCart();
+  renderCart();
+}
+
+
+/* REMOVE */
+
+function removeFromCart(id){
+
+  cart =
+    cart.filter(item => item.id !== id);
+
+  saveCart();
+  renderCart();
+}
+
+
+/* OPEN CHECKOUT */
+
+function openCheckout(){
+
+  if(cart.length === 0){
+    alert("Your cart is empty.");
+    return;
+  }
+
+  const total =
+    cart.reduce(
+      (sum,item) =>
+        sum + item.price * item.quantity,
+      0
+    );
+
+  document.getElementById("checkoutTotal")
+    .textContent = total.toFixed(2);
+
+  document.getElementById("checkoutOverlay")
+    .style.display = "block";
+}
+
+
+/* CLOSE CHECKOUT */
+
+function closeCheckout(){
+
+  document.getElementById("checkoutOverlay")
+    .style.display = "none";
+}
+
+
+/* PLACE ORDER */
+
+async function placeOrder(){
+
+  const name =
+    document.getElementById("customerName")
+      .value.trim();
+
+  const phone =
+    document.getElementById("customerPhone")
+      .value.trim();
+
+  const address =
+    document.getElementById("customerAddress")
+      .value.trim();
+
+  const message =
+    document.getElementById("checkoutMessage");
+
+  const button =
+    document.getElementById("placeOrderBtn");
+
+  if(!name){
+    alert("Please enter your name.");
+    return;
+  }
+
+  if(!/^[0-9]{10}$/.test(phone)){
+    alert("Please enter a valid 10 digit phone number.");
+    return;
+  }
+
+  if(!address){
+    alert("Please enter your delivery address.");
+    return;
+  }
+
+  if(cart.length === 0){
+    alert("Your cart is empty.");
+    return;
+  }
+
+  const total =
+    cart.reduce(
+      (sum,item) =>
+        sum + item.price * item.quantity,
+      0
+    );
+
+  button.disabled = true;
+  button.textContent = "Placing Order...";
+
+  message.innerHTML = "";
+
+  const orderItems =
+    cart.map(item => ({
+      product_id: item.id,
+      name: item.name,
+      price: item.price,
+      quantity: item.quantity
+    }));
+
+  const { data, error } = await db
+    .from("orders")
+    .insert([{
+      customer_name: name,
+      customer_phone: phone,
+      customer_address: address,
+      payment_method: "COD",
+      items: orderItems,
+      total: total,
+      status: "Pending"
+    }])
+    .select()
+    .single();
+
+  if(error){
+
+    console.error(error);
+
+    message.innerHTML =
+      `<p style="color:red">
+        Order failed. Please try again.
+      </p>`;
+
+    button.disabled = false;
+    button.textContent = "Place Order";
+
+    return;
+  }
+
+  /* SUCCESS */
+
+  cart = [];
+
+  saveCart();
+
+  message.innerHTML = `
+    <div class="success">
+
+      <h2>✅ Order Placed!</h2>
+
+      <p>
+        Thank you for shopping with QELVIZO.
+      </p>
+
+      <p>
+        Your payment method is
+        <strong>Cash on Delivery</strong>.
+      </p>
+
+      <p>Order ID:</p>
+
+      <div class="order-id">
+        ${escapeHtml(data.id)}
+      </div>
+
+      <br>
+
+      <button
+        class="btn"
+        onclick="location.reload()"
+      >
+        Continue Shopping
+      </button>
+
+    </div>
+  `;
+
+  document.getElementById("customerName").value = "";
+  document.getElementById("customerPhone").value = "";
+  document.getElementById("customerAddress").value = "";
+
+  button.style.display = "none";
+}
+
+
+/* HTML SECURITY */
+
+function escapeHtml(value){
+
+  return String(value || "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+
+/* START */
+
+updateCartCount();
+loadProducts();
 
 </script>
 
 </body>
-  </html>
+</html>
