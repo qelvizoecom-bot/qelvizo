@@ -1,371 +1,333 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>QELVIZO Owner Panel</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QELVIZO Owner Panel</title>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<style>
-*{box-sizing:border-box}
+  <style>
+    * {
+      box-sizing: border-box;
+    }
 
-body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:#f3f6f4;
-  color:#17251c;
-}
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f7fa;
+      color: #111827;
+    }
 
-button,input,textarea{
-  font:inherit;
-}
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 20px;
+    }
 
-button{
-  cursor:pointer;
-  border:0;
-  border-radius:8px;
-  padding:11px 15px;
-  font-weight:bold;
-}
+    .brand {
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 5px;
+    }
 
-.login-page{
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
-  background:#123522;
-}
+    .subtitle {
+      color: #6b7280;
+      margin-bottom: 25px;
+    }
 
-.login-box{
-  width:100%;
-  max-width:400px;
-  background:white;
-  padding:30px;
-  border-radius:18px;
-  box-shadow:0 10px 40px rgba(0,0,0,.2);
-}
+    .card {
+      background: white;
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.07);
+    }
 
-.logo{
-  text-align:center;
-  font-size:30px;
-  font-weight:bold;
-  color:#174d30;
-  margin-bottom:8px;
-}
+    h2 {
+      margin-top: 0;
+    }
 
-.subtitle{
-  text-align:center;
-  color:#777;
-  margin-bottom:25px;
-}
+    input,
+    textarea {
+      width: 100%;
+      padding: 13px;
+      margin-top: 7px;
+      margin-bottom: 14px;
+      border: 1px solid #d1d5db;
+      border-radius: 9px;
+      font-size: 15px;
+    }
 
-input,textarea{
-  width:100%;
-  padding:12px;
-  margin:7px 0 14px;
-  border:1px solid #d8d8d8;
-  border-radius:8px;
-  outline:none;
-}
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
 
-input:focus,textarea:focus{
-  border-color:#174d30;
-}
+    label {
+      font-weight: 600;
+      font-size: 14px;
+    }
 
-.login-btn,
-.save-btn{
-  width:100%;
-  background:#174d30;
-  color:white;
-}
+    button {
+      border: 0;
+      border-radius: 9px;
+      padding: 12px 18px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+    }
 
-.message{
-  margin-top:12px;
-  text-align:center;
-  font-size:14px;
-  min-height:20px;
-}
+    .primary {
+      background: #111827;
+      color: white;
+    }
 
-.error{
-  color:#c00000;
-}
+    .secondary {
+      background: #e5e7eb;
+      color: #111827;
+    }
 
-.success{
-  color:#087a35;
-}
+    .danger {
+      background: #dc2626;
+      color: white;
+    }
 
-#app{
-  display:none;
-}
+    .success {
+      background: #16a34a;
+      color: white;
+    }
 
-header{
-  background:#123522;
-  color:white;
-  padding:15px 20px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
+    .message {
+      margin-top: 12px;
+      padding: 10px;
+      border-radius: 8px;
+      display: none;
+    }
 
-main{
-  max-width:950px;
-  margin:auto;
-  padding:20px;
-}
+    .error {
+      background: #fee2e2;
+      color: #991b1b;
+    }
 
-.card{
-  background:white;
-  padding:20px;
-  border-radius:14px;
-  margin-bottom:20px;
-  box-shadow:0 2px 10px rgba(0,0,0,.05);
-}
+    .ok {
+      background: #dcfce7;
+      color: #166534;
+    }
 
-.stats{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:12px;
-  margin-bottom:20px;
-}
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+    }
 
-.stat{
-  background:white;
-  padding:18px;
-  border-radius:12px;
-  text-align:center;
-}
+    .stat {
+      background: #f9fafb;
+      padding: 18px;
+      border-radius: 12px;
+      text-align: center;
+    }
 
-.stat b{
-  display:block;
-  font-size:25px;
-  color:#174d30;
-}
+    .stat strong {
+      display: block;
+      font-size: 28px;
+      margin-top: 5px;
+    }
 
-.product{
-  border:1px solid #ddd;
-  padding:14px;
-  border-radius:12px;
-  margin:12px 0;
-  display:flex;
-  gap:14px;
-  align-items:center;
-}
+    .products {
+      display: grid;
+      gap: 15px;
+    }
 
-.product img{
-  width:80px;
-  height:80px;
-  object-fit:cover;
-  border-radius:8px;
-  background:#eee;
-}
+    .product {
+      border: 1px solid #e5e7eb;
+      border-radius: 12px;
+      padding: 15px;
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
 
-.info{
-  flex:1;
-}
+    .product img {
+      width: 90px;
+      height: 90px;
+      object-fit: cover;
+      border-radius: 10px;
+      background: #f3f4f6;
+    }
 
-.info b{
-  font-size:17px;
-}
+    .product-info {
+      flex: 1;
+    }
 
-.actions{
-  display:flex;
-  flex-wrap:wrap;
-  gap:6px;
-}
+    .product-name {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
 
-.edit{
-  background:#e7efff;
-  color:#1450a0;
-}
+    .price {
+      font-weight: 700;
+    }
 
-.delete{
-  background:#ffe7e7;
-  color:#b00020;
-}
+    .mrp {
+      color: #6b7280;
+      text-decoration: line-through;
+      margin-left: 8px;
+    }
 
-.toggle{
-  background:#eee;
-}
+    .stock {
+      margin-top: 5px;
+      color: #374151;
+    }
 
-.logout{
-  background:white;
-  color:#123522;
-}
+    .actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
 
-.cancel{
-  background:#eee;
-  width:100%;
-  margin-top:8px;
-}
+    .hidden {
+      display: none !important;
+    }
 
-.status{
-  font-size:13px;
-  margin-top:5px;
-}
+    @media (max-width: 700px) {
+      .stats {
+        grid-template-columns: 1fr;
+      }
 
-.on{
-  color:#087a35;
-}
+      .product {
+        align-items: flex-start;
+        flex-direction: column;
+      }
 
-.off{
-  color:#b00020;
-}
+      .product img {
+        width: 100%;
+        height: 180px;
+      }
 
-@media(max-width:650px){
-  .stats{
-    grid-template-columns:1fr 1fr;
-  }
+      .actions {
+        width: 100%;
+      }
 
-  .product{
-    align-items:flex-start;
-  }
-
-  .product img{
-    width:65px;
-    height:65px;
-  }
-
-  .actions{
-    flex-direction:column;
-  }
-}
-</style>
+      .actions button {
+        flex: 1;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<!-- LOGIN -->
-<div id="loginPage" class="login-page">
+<div class="container">
 
-  <div class="login-box">
+  <!-- LOGIN -->
+  <div id="loginBox" class="card">
+    <div class="brand">QELVIZO</div>
+    <div class="subtitle">Owner Login</div>
 
-    <div class="logo">QELVIZO</div>
+    <label>Email</label>
+    <input id="email" type="email" placeholder="Owner email">
 
-    <div class="subtitle">Owner Admin Panel</div>
+    <label>Password</label>
+    <input id="password" type="password" placeholder="Password">
 
-    <input
-      id="email"
-      type="email"
-      placeholder="Owner Email"
-      autocomplete="email"
-    >
-
-    <input
-      id="password"
-      type="password"
-      placeholder="Password"
-      autocomplete="current-password"
-    >
-
-    <button id="loginBtn" class="login-btn">
-      Login
-    </button>
+    <button id="loginBtn" class="primary">Login</button>
 
     <div id="loginMessage" class="message"></div>
-
   </div>
 
-</div>
 
+  <!-- DASHBOARD -->
+  <div id="dashboard" class="hidden">
 
-<!-- ADMIN APP -->
-<div id="app">
-
-  <header>
-
-    <div>
-      <b>QELVIZO OWNER</b>
+    <div class="brand">QELVIZO OWNER PANEL</div>
+    <div class="subtitle">
+      Manage your products
     </div>
-
-    <button id="logoutBtn" class="logout">
-      Logout
-    </button>
-
-  </header>
-
-
-  <main>
 
     <!-- STATS -->
     <div class="stats">
 
       <div class="stat">
-        <b id="productCount">0</b>
         Products
+        <strong id="totalProducts">0</strong>
       </div>
 
       <div class="stat">
-        <b id="stockCount">0</b>
         Stock
+        <strong id="totalStock">0</strong>
       </div>
 
       <div class="stat">
-        <b id="activeCount">0</b>
         Active
+        <strong id="activeProducts">0</strong>
       </div>
 
     </div>
 
+    <br>
 
-    <!-- ADD / EDIT -->
+
+    <!-- ADD PRODUCT -->
     <div class="card">
 
       <h2 id="formTitle">Add Product</h2>
 
+      <label>Product Name</label>
       <input
-        id="name"
+        id="productName"
         type="text"
-        placeholder="Product Name"
+        placeholder="Example: Garden Rake"
       >
 
+      <label>Selling Price</label>
       <input
-        id="price"
+        id="productPrice"
         type="number"
-        min="0"
-        placeholder="Selling Price"
+        placeholder="199"
       >
 
+      <label>MRP</label>
       <input
-        id="mrp"
+        id="productMrp"
         type="number"
-        min="0"
-        placeholder="MRP"
+        placeholder="299"
       >
 
+      <label>Stock Quantity</label>
       <input
-        id="stock"
+        id="productStock"
         type="number"
-        min="0"
-        placeholder="Stock Quantity"
+        placeholder="10"
       >
 
+      <label>Product Image URL</label>
       <input
-        id="image"
+        id="productImage"
         type="url"
-        placeholder="Product Image URL"
+        placeholder="https://example.com/image.jpg"
       >
 
+      <label>Description</label>
       <textarea
-        id="description"
-        rows="4"
-        placeholder="Product Description"
+        id="productDescription"
+        placeholder="Write product description..."
       ></textarea>
 
-      <button id="saveBtn" class="save-btn">
-        Add Product
+      <button id="saveBtn" class="primary">
+        Save Product
       </button>
 
       <button
         id="cancelBtn"
-        class="cancel"
-        style="display:none;"
+        class="secondary hidden"
+        type="button"
       >
         Cancel Edit
       </button>
 
-      <div id="formMessage" class="message"></div>
+      <div id="productMessage" class="message"></div>
 
     </div>
 
@@ -375,523 +337,540 @@ main{
 
       <h2>My Products</h2>
 
-      <div id="products">
+      <div id="productsList" class="products">
         Loading products...
       </div>
 
     </div>
 
-  </main>
+
+    <button id="logoutBtn" class="danger">
+      Logout
+    </button>
+
+  </div>
 
 </div>
 
 
 <script>
 
-/* =========================
-   SUPABASE CONFIG
-========================= */
+  /* ==============================
+     SUPABASE CONFIG
+  ============================== */
 
-const SUPABASE_URL =
-"https://oogibbmsiiarceczqgfa.supabase.co";
+  const SUPABASE_URL =
+    "https://oogibbmsiiarceczqgfa.supabase.co";
 
-const SUPABASE_KEY =
-"sb_publishable_VLedtJ2r9K4fC00T4k8CgA_ahfpM1dh";
+  const SUPABASE_KEY =
+    "sb_publishable_VLedtJ2r9K4fC00T4k8CgA_ahfpM1dh";
 
-const db =
-supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
-
-
-/* =========================
-   VARIABLES
-========================= */
-
-let editId = null;
-
-
-/* =========================
-   ELEMENTS
-========================= */
-
-const loginPage =
-document.getElementById("loginPage");
-
-const app =
-document.getElementById("app");
-
-const loginBtn =
-document.getElementById("loginBtn");
-
-const logoutBtn =
-document.getElementById("logoutBtn");
-
-const loginMessage =
-document.getElementById("loginMessage");
-
-const formMessage =
-document.getElementById("formMessage");
-
-const productsBox =
-document.getElementById("products");
-
-
-/* =========================
-   MESSAGE
-========================= */
-
-function showLoginMessage(message,isError=true){
-
-  loginMessage.textContent = message;
-
-  loginMessage.className =
-    isError
-    ? "message error"
-    : "message success";
-}
-
-
-function showFormMessage(message,isError=false){
-
-  formMessage.textContent = message;
-
-  formMessage.className =
-    isError
-    ? "message error"
-    : "message success";
-}
-
-
-/* =========================
-   LOGIN
-========================= */
-
-async function login(){
-
-  const email =
-    document.getElementById("email")
-    .value
-    .trim();
-
-  const password =
-    document.getElementById("password")
-    .value;
-
-  if(!email || !password){
-
-    showLoginMessage(
-      "Email and password enter karein."
-    );
-
-    return;
-  }
-
-  loginBtn.disabled = true;
-  loginBtn.textContent = "Logging in...";
-
-  showLoginMessage(
-    "Please wait...",
-    false
+  const db = supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
   );
 
-  try{
 
-    const result =
+  /* ==============================
+     ELEMENTS
+  ============================== */
+
+  const loginBox = document.getElementById("loginBox");
+  const dashboard = document.getElementById("dashboard");
+
+  const loginBtn = document.getElementById("loginBtn");
+  const logoutBtn = document.getElementById("logoutBtn");
+
+  const loginMessage = document.getElementById("loginMessage");
+  const productMessage = document.getElementById("productMessage");
+
+  const productName = document.getElementById("productName");
+  const productPrice = document.getElementById("productPrice");
+  const productMrp = document.getElementById("productMrp");
+  const productStock = document.getElementById("productStock");
+  const productImage = document.getElementById("productImage");
+  const productDescription = document.getElementById("productDescription");
+
+  const saveBtn = document.getElementById("saveBtn");
+  const cancelBtn = document.getElementById("cancelBtn");
+
+  const productsList = document.getElementById("productsList");
+
+  let editingId = null;
+
+
+  /* ==============================
+     MESSAGE
+  ============================== */
+
+  function showMessage(element, message, type) {
+
+    element.textContent = message;
+
+    element.className = "message " + type;
+
+    element.style.display = "block";
+
+  }
+
+
+  function hideMessage(element) {
+
+    element.style.display = "none";
+
+  }
+
+
+  /* ==============================
+     ESCAPE HTML
+  ============================== */
+
+  function escapeHTML(value) {
+
+    if (value === null || value === undefined) {
+      return "";
+    }
+
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+
+  }
+
+
+  /* ==============================
+     LOGIN
+  ============================== */
+
+  loginBtn.addEventListener("click", async function() {
+
+    hideMessage(loginMessage);
+
+    const email =
+      document.getElementById("email").value.trim();
+
+    const password =
+      document.getElementById("password").value;
+
+    if (!email || !password) {
+
+      showMessage(
+        loginMessage,
+        "Email aur password enter karein.",
+        "error"
+      );
+
+      return;
+    }
+
+    loginBtn.disabled = true;
+    loginBtn.textContent = "Logging in...";
+
+
+    const { data, error } =
       await db.auth.signInWithPassword({
         email: email,
         password: password
       });
 
-    if(result.error){
 
-      showLoginMessage(
-        result.error.message
+    if (error) {
+
+      showMessage(
+        loginMessage,
+        error.message,
+        "error"
       );
+
+      loginBtn.disabled = false;
+      loginBtn.textContent = "Login";
 
       return;
     }
 
-    if(!result.data.session){
 
-      showLoginMessage(
-        "Login session create nahi hui."
+    if (!data.session) {
+
+      showMessage(
+        loginMessage,
+        "Login session nahi mili.",
+        "error"
       );
+
+      loginBtn.disabled = false;
+      loginBtn.textContent = "Login";
 
       return;
     }
 
-    loginPage.style.display = "none";
-    app.style.display = "block";
 
-    showLoginMessage("",false);
-
-    await loadProducts();
-
-  }catch(error){
-
-    showLoginMessage(
-      error.message || "Login failed."
-    );
-
-  }finally{
+    loginBox.classList.add("hidden");
+    dashboard.classList.remove("hidden");
 
     loginBtn.disabled = false;
     loginBtn.textContent = "Login";
 
+    await loadProducts();
+
+  });
+
+
+  /* ==============================
+     CHECK EXISTING SESSION
+  ============================== */
+
+  async function checkSession() {
+
+    const {
+      data: { session }
+    } = await db.auth.getSession();
+
+
+    if (session) {
+
+      loginBox.classList.add("hidden");
+      dashboard.classList.remove("hidden");
+
+      await loadProducts();
+
+    }
+
   }
 
-}
+
+  /* ==============================
+     LOAD PRODUCTS
+  ============================== */
+
+  async function loadProducts() {
+
+    productsList.innerHTML =
+      "Loading products...";
 
 
-/* =========================
-   LOGOUT
-========================= */
-
-async function logout(){
-
-  await db.auth.signOut();
-
-  app.style.display = "none";
-  loginPage.style.display = "flex";
-
-  document.getElementById("email").value = "";
-  document.getElementById("password").value = "";
-
-  showLoginMessage(
-    "Logged out.",
-    false
-  );
-
-}
-
-
-/* =========================
-   LOAD PRODUCTS
-========================= */
-
-async function loadProducts(){
-
-  productsBox.textContent =
-    "Loading products...";
-
-  try{
-
-    const result =
-      await db
+    const {
+      data,
+      error
+    } = await db
       .from("products")
       .select("*")
       .order("name");
 
-    if(result.error){
 
-      productsBox.innerHTML =
-        "<p class='error'>" +
-        escapeHtml(result.error.message) +
-        "</p>";
+    if (error) {
 
-      return;
-    }
-
-    const data = result.data || [];
-
-    updateStats(data);
-
-    if(data.length === 0){
-
-      productsBox.innerHTML =
-        "<p>No products yet. Add your first product above.</p>";
+      productsList.innerHTML =
+        "<p>Products load nahi ho rahe: "
+        + escapeHTML(error.message)
+        + "</p>";
 
       return;
     }
 
-    productsBox.innerHTML = "";
 
-    data.forEach(function(product){
+    updateStats(data || []);
 
-      const div =
-        document.createElement("div");
+    renderProducts(data || []);
 
-      div.className = "product";
+  }
 
-      const image =
-        product.image_url ||
-        "https://via.placeholder.com/80";
 
-      div.innerHTML = `
+  /* ==============================
+     STATS
+  ============================== */
 
-        <img
-          src="${escapeAttribute(image)}"
-          onerror="this.src='https://via.placeholder.com/80'"
-        >
+  function updateStats(products) {
 
-        <div class="info">
+    document.getElementById(
+      "totalProducts"
+    ).textContent = products.length;
 
-          <b>
-            ${escapeHtml(product.name)}
-          </b>
 
-          <br>
+    const totalStock =
+      products.reduce(
+        (sum, product) =>
+          sum + Number(product.stock || 0),
+        0
+      );
 
-          Price:
-          ₹${Number(product.price || 0)}
 
-          <br>
+    document.getElementById(
+      "totalStock"
+    ).textContent = totalStock;
 
-          MRP:
-          ₹${Number(product.mrp || 0)}
 
-          <br>
+    const active =
+      products.filter(
+        product => product.is_active === true
+      ).length;
 
-          Stock:
-          ${Number(product.stock || 0)}
 
-          <div class="status ${
-            product.is_active ? "on" : "off"
-          }">
+    document.getElementById(
+      "activeProducts"
+    ).textContent = active;
 
-            Status:
-            ${product.is_active ? "ON" : "OFF"}
+  }
+
+
+  /* ==============================
+     RENDER PRODUCTS
+  ============================== */
+
+  function renderProducts(products) {
+
+    if (!products.length) {
+
+      productsList.innerHTML =
+        "<p>No products found.</p>";
+
+      return;
+    }
+
+
+    productsList.innerHTML =
+      products.map(product => {
+
+        const image =
+          product.image_url ||
+          "https://via.placeholder.com/300x200?text=QELVIZO";
+
+
+        return `
+
+          <div class="product">
+
+            <img
+              src="${escapeHTML(image)}"
+              alt="${escapeHTML(product.name)}"
+              onerror="this.src='https://via.placeholder.com/300x200?text=QELVIZO'"
+            >
+
+            <div class="product-info">
+
+              <div class="product-name">
+                ${escapeHTML(product.name)}
+              </div>
+
+              <div>
+                <span class="price">
+                  ₹${escapeHTML(product.price)}
+                </span>
+
+                <span class="mrp">
+                  ₹${escapeHTML(product.mrp)}
+                </span>
+              </div>
+
+              <div class="stock">
+                Stock: ${escapeHTML(product.stock)}
+              </div>
+
+              <div class="stock">
+                Status:
+                ${
+                  product.is_active
+                  ? "Active"
+                  : "Inactive"
+                }
+              </div>
+
+              <p>
+                ${escapeHTML(product.description || "")}
+              </p>
+
+              <div class="actions">
+
+                <button
+                  class="secondary"
+                  onclick="editProduct('${product.id}')"
+                >
+                  Edit
+                </button>
+
+                <button
+                  class="success"
+                  onclick="toggleProduct('${product.id}', ${product.is_active})"
+                >
+                  ${
+                    product.is_active
+                    ? "Disable"
+                    : "Enable"
+                  }
+                </button>
+
+                <button
+                  class="danger"
+                  onclick="deleteProduct('${product.id}')"
+                >
+                  Delete
+                </button>
+
+              </div>
+
+            </div>
 
           </div>
 
-        </div>
+        `;
 
-        <div class="actions">
-
-          <button
-            class="edit"
-            data-action="edit"
-            data-id="${product.id}"
-          >
-            Edit
-          </button>
-
-          <button
-            class="toggle"
-            data-action="toggle"
-            data-id="${product.id}"
-            data-status="${product.is_active}"
-          >
-            ${product.is_active ? "OFF" : "ON"}
-          </button>
-
-          <button
-            class="delete"
-            data-action="delete"
-            data-id="${product.id}"
-          >
-            Delete
-          </button>
-
-        </div>
-      `;
-
-      productsBox.appendChild(div);
-
-    });
-
-
-    /* BUTTON EVENTS */
-
-    productsBox
-      .querySelectorAll("[data-action]")
-      .forEach(function(button){
-
-        button.addEventListener(
-          "click",
-          function(){
-
-            const action =
-              button.dataset.action;
-
-            const id =
-              button.dataset.id;
-
-            if(action === "edit"){
-              editProduct(id);
-            }
-
-            if(action === "toggle"){
-              toggleProduct(
-                id,
-                button.dataset.status === "true"
-              );
-            }
-
-            if(action === "delete"){
-              deleteProduct(id);
-            }
-
-          }
-        );
-
-      });
-
-
-  }catch(error){
-
-    productsBox.innerHTML =
-      "<p class='error'>" +
-      escapeHtml(error.message) +
-      "</p>";
+      }).join("");
 
   }
 
-}
+
+  /* ==============================
+     SAVE PRODUCT
+  ============================== */
+
+  saveBtn.addEventListener("click", async function() {
+
+    hideMessage(productMessage);
 
 
-/* =========================
-   STATS
-========================= */
+    const name =
+      productName.value.trim();
 
-function updateStats(products){
+    const description =
+      productDescription.value.trim();
 
-  document.getElementById(
-    "productCount"
-  ).textContent =
-    products.length;
+    const price =
+      Number(productPrice.value);
 
-  document.getElementById(
-    "stockCount"
-  ).textContent =
-    products.reduce(
-      function(total,p){
-        return total + Number(p.stock || 0);
-      },
-      0
-    );
+    const mrp =
+      Number(productMrp.value);
 
-  document.getElementById(
-    "activeCount"
-  ).textContent =
-    products.filter(
-      function(p){
-        return p.is_active;
-      }
-    ).length;
+    const stock =
+      Number(productStock.value);
 
-}
+    const image_url =
+      productImage.value.trim();
 
 
-/* =========================
-   SAVE PRODUCT
-========================= */
+    if (!name) {
 
-async function saveProduct(){
-
-  const name =
-    document.getElementById("name")
-    .value
-    .trim();
-
-  const price =
-    Number(
-      document.getElementById("price")
-      .value || 0
-    );
-
-  const mrp =
-    Number(
-      document.getElementById("mrp")
-      .value || 0
-    );
-
-  const stock =
-    Number(
-      document.getElementById("stock")
-      .value || 0
-    );
-
-  const image =
-    document.getElementById("image")
-    .value
-    .trim();
-
-  const description =
-    document.getElementById("description")
-    .value
-    .trim();
-
-
-  if(!name){
-
-    showFormMessage(
-      "Product name enter karein.",
-      true
-    );
-
-    return;
-  }
-
-
-  const product = {
-
-    name: name,
-
-    price: price,
-
-    mrp: mrp,
-
-    stock: stock,
-
-    image_url: image,
-
-    description: description
-
-  };
-
-
-  const saveBtn =
-    document.getElementById("saveBtn");
-
-  saveBtn.disabled = true;
-
-  saveBtn.textContent =
-    editId
-    ? "Updating..."
-    : "Adding...";
-
-
-  try{
-
-    let result;
-
-    if(editId){
-
-      result =
-        await db
-        .from("products")
-        .update(product)
-        .eq("id",editId);
-
-    }else{
-
-      result =
-        await db
-        .from("products")
-        .insert(product);
-
-    }
-
-
-    if(result.error){
-
-      showFormMessage(
-        result.error.message,
-        true
+      showMessage(
+        productMessage,
+        "Product name required hai.",
+        "error"
       );
 
       return;
     }
 
 
-    showFormMessage(
-      editId
-      ? "Product updated successfully."
-      : "Product added successfully.",
-      false
+    if (!price || price < 0) {
+
+      showMessage(
+        productMessage,
+        "Valid selling price enter karein.",
+        "error"
+      );
+
+      return;
+    }
+
+
+    if (!mrp || mrp < 0) {
+
+      showMessage(
+        productMessage,
+        "Valid MRP enter karein.",
+        "error"
+      );
+
+      return;
+    }
+
+
+    if (stock < 0 || isNaN(stock)) {
+
+      showMessage(
+        productMessage,
+        "Valid stock quantity enter karein.",
+        "error"
+      );
+
+      return;
+    }
+
+
+    saveBtn.disabled = true;
+    saveBtn.textContent =
+      editingId
+      ? "Updating..."
+      : "Saving...";
+
+
+    const productData = {
+
+      name: name,
+
+      description:
+        description || null,
+
+      price: price,
+
+      mrp: mrp,
+
+      image_url:
+        image_url || null,
+
+      stock: stock,
+
+      is_active: true
+
+    };
+
+
+    let result;
+
+
+    if (editingId) {
+
+      result =
+        await db
+          .from("products")
+          .update(productData)
+          .eq("id", editingId);
+
+    } else {
+
+      result =
+        await db
+          .from("products")
+          .insert([productData]);
+
+    }
+
+
+    if (result.error) {
+
+      showMessage(
+        productMessage,
+        "Product save nahi hua: "
+        + result.error.message,
+        "error"
+      );
+
+      saveBtn.disabled = false;
+      saveBtn.textContent =
+        editingId
+        ? "Update Product"
+        : "Save Product";
+
+      return;
+    }
+
+
+    showMessage(
+      productMessage,
+      editingId
+      ? "Product successfully updated!"
+      : "Product successfully added!",
+      "ok"
     );
 
 
@@ -900,367 +879,226 @@ async function saveProduct(){
     await loadProducts();
 
 
-  }catch(error){
-
-    showFormMessage(
-      error.message,
-      true
-    );
-
-  }finally{
-
     saveBtn.disabled = false;
+    saveBtn.textContent = "Save Product";
 
-    saveBtn.textContent =
-      editId
-      ? "Update Product"
-      : "Add Product";
-
-  }
-
-}
+  });
 
 
-/* =========================
-   EDIT PRODUCT
-========================= */
+  /* ==============================
+     EDIT PRODUCT
+  ============================== */
 
-async function editProduct(id){
+  window.editProduct = async function(id) {
 
-  try{
-
-    const result =
-      await db
+    const {
+      data,
+      error
+    } = await db
       .from("products")
       .select("*")
-      .eq("id",id)
+      .eq("id", id)
       .single();
 
-    if(result.error){
 
-      showFormMessage(
-        result.error.message,
-        true
-      );
+    if (error) {
+
+      alert(error.message);
 
       return;
     }
 
-    const p = result.data;
 
-    editId = p.id;
+    editingId = id;
+
+
+    productName.value =
+      data.name || "";
+
+    productPrice.value =
+      data.price ?? "";
+
+    productMrp.value =
+      data.mrp ?? "";
+
+    productStock.value =
+      data.stock ?? "";
+
+    productImage.value =
+      data.image_url || "";
+
+    productDescription.value =
+      data.description || "";
+
 
     document.getElementById(
       "formTitle"
-    ).textContent =
-      "Edit Product";
+    ).textContent = "Edit Product";
 
-    document.getElementById(
-      "name"
-    ).value =
-      p.name || "";
 
-    document.getElementById(
-      "price"
-    ).value =
-      p.price || "";
-
-    document.getElementById(
-      "mrp"
-    ).value =
-      p.mrp || "";
-
-    document.getElementById(
-      "stock"
-    ).value =
-      p.stock || "";
-
-    document.getElementById(
-      "image"
-    ).value =
-      p.image_url || "";
-
-    document.getElementById(
-      "description"
-    ).value =
-      p.description || "";
-
-    document.getElementById(
-      "saveBtn"
-    ).textContent =
+    saveBtn.textContent =
       "Update Product";
 
-    document.getElementById(
-      "cancelBtn"
-    ).style.display =
-      "block";
+
+    cancelBtn.classList.remove(
+      "hidden"
+    );
+
 
     window.scrollTo({
-      top:0,
-      behavior:"smooth"
+      top: 0,
+      behavior: "smooth"
     });
 
-  }catch(error){
-
-    showFormMessage(
-      error.message,
-      true
-    );
-
-  }
-
-}
+  };
 
 
-/* =========================
-   DELETE PRODUCT
-========================= */
+  /* ==============================
+     CANCEL EDIT
+  ============================== */
 
-async function deleteProduct(id){
+  cancelBtn.addEventListener(
+    "click",
+    function() {
 
-  const ok =
-    confirm(
-      "Kya aap is product ko delete karna chahte hain?"
-    );
+      clearForm();
 
-  if(!ok) return;
-
-
-  try{
-
-    const result =
-      await db
-      .from("products")
-      .delete()
-      .eq("id",id);
-
-
-    if(result.error){
-
-      showFormMessage(
-        result.error.message,
-        true
-      );
-
-      return;
     }
+  );
 
-    await loadProducts();
 
-  }catch(error){
+  function clearForm() {
 
-    showFormMessage(
-      error.message,
-      true
+    editingId = null;
+
+    productName.value = "";
+    productPrice.value = "";
+    productMrp.value = "";
+    productStock.value = "";
+    productImage.value = "";
+    productDescription.value = "";
+
+    document.getElementById(
+      "formTitle"
+    ).textContent = "Add Product";
+
+    saveBtn.textContent =
+      "Save Product";
+
+    cancelBtn.classList.add(
+      "hidden"
     );
 
   }
 
-}
 
+  /* ==============================
+     TOGGLE ACTIVE
+  ============================== */
 
-/* =========================
-   ON / OFF
-========================= */
+  window.toggleProduct = async function(
+    id,
+    currentStatus
+  ) {
 
-async function toggleProduct(id,currentStatus){
-
-  try{
-
-    const result =
-      await db
+    const {
+      error
+    } = await db
       .from("products")
       .update({
         is_active: !currentStatus
       })
-      .eq("id",id);
+      .eq("id", id);
 
 
-    if(result.error){
+    if (error) {
 
-      showFormMessage(
-        result.error.message,
-        true
+      alert(
+        "Status update nahi hua: "
+        + error.message
       );
 
       return;
     }
 
+
     await loadProducts();
 
-  }catch(error){
-
-    showFormMessage(
-      error.message,
-      true
-    );
-
-  }
-
-}
+  };
 
 
-/* =========================
-   CLEAR FORM
-========================= */
+  /* ==============================
+     DELETE PRODUCT
+  ============================== */
 
-function clearForm(){
+  window.deleteProduct = async function(id) {
 
-  editId = null;
-
-  document.getElementById(
-    "formTitle"
-  ).textContent =
-    "Add Product";
-
-  document.getElementById(
-    "name"
-  ).value = "";
-
-  document.getElementById(
-    "price"
-  ).value = "";
-
-  document.getElementById(
-    "mrp"
-  ).value = "";
-
-  document.getElementById(
-    "stock"
-  ).value = "";
-
-  document.getElementById(
-    "image"
-  ).value = "";
-
-  document.getElementById(
-    "description"
-  ).value = "";
-
-  document.getElementById(
-    "saveBtn"
-  ).textContent =
-    "Add Product";
-
-  document.getElementById(
-    "cancelBtn"
-  ).style.display =
-    "none";
-
-  formMessage.textContent = "";
-
-}
+    const confirmed =
+      confirm(
+        "Kya aap ye product delete karna chahte hain?"
+      );
 
 
-/* =========================
-   CANCEL EDIT
-========================= */
-
-document.getElementById(
-  "cancelBtn"
-).addEventListener(
-  "click",
-  clearForm
-);
-
-
-/* =========================
-   ESCAPE HTML
-========================= */
-
-function escapeHtml(value){
-
-  return String(value || "")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
-
-}
-
-
-function escapeAttribute(value){
-
-  return String(value || "")
-    .replace(/"/g,"&quot;")
-    .replace(/</g,"%3C")
-    .replace(/>/g,"%3E");
-
-}
-
-
-/* =========================
-   BUTTON EVENTS
-========================= */
-
-loginBtn.addEventListener(
-  "click",
-  login
-);
-
-logoutBtn.addEventListener(
-  "click",
-  logout
-);
-
-
-/* ENTER KEY LOGIN */
-
-document.getElementById(
-  "password"
-).addEventListener(
-  "keydown",
-  function(event){
-
-    if(event.key === "Enter"){
-      login();
+    if (!confirmed) {
+      return;
     }
 
-  }
-);
 
-
-/* =========================
-   CHECK EXISTING SESSION
-========================= */
-
-async function checkSession(){
-
-  try{
-
-    const result =
-      await db.auth.getSession();
-
-    if(
-      result.data &&
-      result.data.session
-    ){
-
-      loginPage.style.display = "none";
-      app.style.display = "block";
-
-      await loadProducts();
-
-    }
-
-  }catch(error){
-
-    console.error(
-      "Session error:",
+    const {
       error
-    );
+    } = await db
+      .from("products")
+      .delete()
+      .eq("id", id);
 
-  }
 
-}
+    if (error) {
+
+      alert(
+        "Product delete nahi hua: "
+        + error.message
+      );
+
+      return;
+    }
 
 
-/* START */
+    await loadProducts();
 
-checkSession();
+  };
+
+
+  /* ==============================
+     LOGOUT
+  ============================== */
+
+  logoutBtn.addEventListener(
+    "click",
+    async function() {
+
+      await db.auth.signOut();
+
+      dashboard.classList.add(
+        "hidden"
+      );
+
+      loginBox.classList.remove(
+        "hidden"
+      );
+
+      clearForm();
+
+    }
+  );
+
+
+  /* ==============================
+     START
+  ============================== */
+
+  checkSession();
 
 </script>
 
 </body>
- </html>
+</html>
