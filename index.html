@@ -9,9 +9,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-*{
-  box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
   margin:0;
@@ -294,57 +292,53 @@ textarea.input{
 
 <header>
 
-  <div class="logo">
-    QELVIZO
-  </div>
+<div class="logo">
+QELVIZO
+</div>
 
-  <button class="cart-btn" onclick="openCart()">
-    🛒 Cart (<span id="cartCount">0</span>)
-  </button>
+<button class="cart-btn" onclick="openCart()">
+🛒 Cart (<span id="cartCount">0</span>)
+</button>
 
 </header>
 
-
 <section class="hero">
 
-  <h1>Smart Products. Better Living.</h1>
+<h1>Smart Products. Better Living.</h1>
 
-  <p>
-    Discover useful products for your home, kitchen and garden.
-  </p>
+<p>
+Discover useful products for your home, kitchen and garden.
+</p>
 
 </section>
-
 
 <section class="container">
 
-  <h2 class="section-title">
-    Our Products
-  </h2>
+<h2 class="section-title">
+Our Products
+</h2>
 
-  <div id="products" class="products">
-    <p>Loading products...</p>
-  </div>
+<div id="products" class="products">
+<p>Loading products...</p>
+</div>
 
 </section>
-
 
 <section class="about">
 
-  <h2>Why QELVIZO?</h2>
+<h2>Why QELVIZO?</h2>
 
-  <p>
-    Quality products, useful designs and better everyday living.
-  </p>
+<p>
+Quality products, useful designs and better everyday living.
+</p>
 
 </section>
 
-
 <footer>
 
-  <p>
-    © 2026 QELVIZO. All Rights Reserved.
-  </p>
+<p>
+© 2026 QELVIZO. All Rights Reserved.
+</p>
 
 </footer>
 
@@ -353,29 +347,29 @@ textarea.input{
 
 <div id="cartOverlay" class="overlay">
 
-  <div class="cart-box">
+<div class="cart-box">
 
-    <button class="close" onclick="closeCart()">
-      ×
-    </button>
+<button class="close" onclick="closeCart()">
+×
+</button>
 
-    <h2>🛒 Your Cart</h2>
+<h2>🛒 Your Cart</h2>
 
-    <div id="cartItems"></div>
+<div id="cartItems"></div>
 
-    <div class="total">
-      Total: ₹<span id="cartTotal">0</span>
-    </div>
+<div class="total">
+Total: ₹<span id="cartTotal">0</span>
+</div>
 
-    <button
-      class="btn"
-      id="checkoutBtn"
-      onclick="openCheckout()"
-    >
-      Proceed to Checkout
-    </button>
+<button
+class="btn"
+id="checkoutBtn"
+onclick="openCheckout()"
+>
+Proceed to Checkout
+</button>
 
-  </div>
+</div>
 
 </div>
 
@@ -384,79 +378,81 @@ textarea.input{
 
 <div id="checkoutOverlay" class="checkout">
 
-  <div class="checkout-box">
+<div class="checkout-box">
 
-    <button class="close" onclick="closeCheckout()">
-      ×
-    </button>
+<button class="close" onclick="closeCheckout()">
+×
+</button>
 
-    <h2>Checkout</h2>
+<h2>Checkout</h2>
 
-    <p>
-      Please enter your delivery details.
-    </p>
+<p>
+Please enter your delivery details.
+</p>
 
-    <label>
-      Full Name
-    </label>
+<label>
+Full Name
+</label>
 
-    <input
-      id="customerName"
-      class="input"
-      type="text"
-      placeholder="Enter your full name"
-    >
+<input
+id="customerName"
+class="input"
+type="text"
+placeholder="Enter your full name"
+>
 
-    <label>
-      Phone Number
-    </label>
+<label>
+Phone Number
+</label>
 
-    <input
-      id="customerPhone"
-      class="input"
-      type="tel"
-      placeholder="Enter 10 digit mobile number"
-      maxlength="10"
-    >
+<input
+id="customerPhone"
+class="input"
+type="tel"
+placeholder="Enter 10 digit mobile number"
+maxlength="10"
+>
 
-    <label>
-      Delivery Address
-    </label>
+<label>
+Delivery Address
+</label>
 
-    <textarea
-      id="customerAddress"
-      class="input"
-      placeholder="House no., street, city, state, pincode"
-    ></textarea>
+<textarea
+id="customerAddress"
+class="input"
+placeholder="House no., street, city, state, pincode"
+></textarea>
 
-    <div class="cod">
+<div class="cod">
 
-      <strong>
-        💵 Payment Method
-      </strong>
+<strong>
+💵 Payment Method
+</strong>
 
-      <br>
+<br>
 
-      Cash on Delivery (COD)
+Cash on Delivery (COD)
 
-    </div>
+</div>
 
-    <div class="total">
-      Order Total:
-      ₹<span id="checkoutTotal">0</span>
-    </div>
+<div class="total">
 
-    <button
-      class="btn"
-      id="placeOrderBtn"
-      onclick="placeOrder()"
-    >
-      Place Order
-    </button>
+Order Total:
+₹<span id="checkoutTotal">0</span>
 
-    <div id="checkoutMessage"></div>
+</div>
 
-  </div>
+<button
+class="btn"
+id="placeOrderBtn"
+onclick="placeOrder()"
+>
+Place Order
+</button>
+
+<div id="checkoutMessage"></div>
+
+</div>
 
 </div>
 
@@ -464,7 +460,7 @@ textarea.input{
 <script>
 
 /* =========================
-   SUPABASE
+SUPABASE
 ========================= */
 
 const SUPABASE_URL =
@@ -475,846 +471,814 @@ const SUPABASE_KEY =
 
 const db =
 supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
+SUPABASE_URL,
+SUPABASE_KEY
 );
 
 
 /* =========================
-   VARIABLES
+VARIABLES
 ========================= */
 
 let products = [];
 
 let cart =
 JSON.parse(
-  localStorage.getItem("qelvizoCart") || "[]"
+localStorage.getItem("qelvizoCart") || "[]"
 );
 
 
 /* =========================
-   LOAD PRODUCTS
+LOAD PRODUCTS
 ========================= */
 
 async function loadProducts(){
 
-  const box =
-    document.getElementById("products");
+const box =
+document.getElementById("products");
 
-  const result =
-    await db
-      .from("products")
-      .select(
-        "id,name,description,price,mrp,image_url,stock,is_active"
-      )
-      .eq("is_active",true)
-      .order("name");
+const result =
+await db
+.from("products")
+.select(
+"id,name,description,price,mrp,image_url,stock,is_active"
+)
+.eq("is_active",true)
+.order("name");
 
-  const data = result.data;
-  const error = result.error;
+const data = result.data;
+const error = result.error;
 
-  if(error){
+if(error){
 
-    console.error("PRODUCT ERROR:",error);
+console.error("PRODUCT ERROR:",error);
 
-    box.innerHTML =
-      "<p>Unable to load products.</p>";
+box.innerHTML =
+"<p>Unable to load products.</p>";
 
-    return;
-  }
+return;
+}
 
-  products =
-    data || [];
+products =
+data || [];
 
-  if(products.length === 0){
+if(products.length === 0){
 
-    box.innerHTML =
-      "<p>No products available right now.</p>";
+box.innerHTML =
+"<p>No products available right now.</p>";
 
-    return;
-  }
+return;
+}
 
-  box.innerHTML =
-    products.map(function(p){
+box.innerHTML =
+products.map(function(p){
 
-      const soldOut =
-        Number(p.stock || 0) <= 0;
+const soldOut =
+Number(p.stock || 0) <= 0;
 
-      return `
+return `
 
-        <div class="product">
+<div class="product">
 
-          <img
-            src="${escapeHtml(p.image_url || "")}"
-            alt="${escapeHtml(p.name)}"
-            onerror="
-              this.src='https://via.placeholder.com/500x500?text=QELVIZO'
-            "
-          >
+<img
+src="${escapeHtml(p.image_url || "")}"
+alt="${escapeHtml(p.name)}"
+onerror="
+this.src='https://via.placeholder.com/500x500?text=QELVIZO'
+"
+>
 
-          <div class="product-info">
+<div class="product-info">
 
-            <h3>
-              ${escapeHtml(p.name)}
-            </h3>
+<h3>
+${escapeHtml(p.name)}
+</h3>
 
-            <div class="desc">
-              ${escapeHtml(p.description || "")}
-            </div>
+<div class="desc">
+${escapeHtml(p.description || "")}
+</div>
 
-            <div class="price">
+<div class="price">
 
-              ₹${Number(p.price || 0)}
+₹${Number(p.price || 0)}
 
-              ${
-                p.mrp
-                ?
-                `<span class="mrp">
-                  ₹${Number(p.mrp)}
-                </span>`
-                :
-                ""
-              }
+${
+p.mrp
+?
+`<span class="mrp">
+₹${Number(p.mrp)}
+</span>`
+:
+""
+}
 
-            </div>
+</div>
 
-            <div class="stock">
+<div class="stock">
 
-              ${
-                soldOut
-                ?
-                "Out of Stock"
-                :
-                Number(p.stock) + " available"
-              }
+${
+soldOut
+?
+"Out of Stock"
+:
+Number(p.stock) + " available"
+}
 
-            </div>
+</div>
 
-            <button
-              class="btn"
-              onclick="addToCart('${p.id}')"
-              ${soldOut ? "disabled" : ""}
-            >
+<button
+class="btn"
+onclick="addToCart('${p.id}')"
+${soldOut ? "disabled" : ""}
+>
 
-              ${
-                soldOut
-                ?
-                "Out of Stock"
-                :
-                "Add to Cart"
-              }
+${
+soldOut
+?
+"Out of Stock"
+:
+"Add to Cart"
+}
 
-            </button>
+</button>
 
-          </div>
+</div>
 
-        </div>
+</div>
 
-      `;
+`;
 
-    }).join("");
+}).join("");
 
 }
 
 
 /* =========================
-   ADD CART
+ADD TO CART
 ========================= */
 
 function addToCart(id){
 
-  const product =
-    products.find(
-      function(p){
-        return p.id === id;
-      }
-    );
+const product =
+products.find(
+function(p){
+return p.id === id;
+}
+);
 
-  if(!product){
-    return;
-  }
+if(!product){
+return;
+}
 
-  const existing =
-    cart.find(
-      function(item){
-        return item.id === id;
-      }
-    );
+const existing =
+cart.find(
+function(item){
+return item.id === id;
+}
+);
 
-  if(existing){
+if(existing){
 
-    if(
-      existing.quantity <
-      Number(product.stock)
-    ){
+if(
+existing.quantity <
+Number(product.stock)
+){
 
-      existing.quantity++;
+existing.quantity++;
 
-    }else{
+}else{
 
-      alert(
-        "Maximum available stock reached."
-      );
+alert(
+"Maximum available stock reached."
+);
 
-      return;
-    }
+return;
+}
 
-  }else{
+}else{
 
-    cart.push({
+cart.push({
 
-      id:product.id,
+id:product.id,
 
-      name:product.name,
+name:product.name,
 
-      price:Number(
-        product.price || 0
-      ),
+price:Number(
+product.price || 0
+),
 
-      image_url:
-        product.image_url || "",
+image_url:
+product.image_url || "",
 
-      quantity:1
+quantity:1
 
-    });
+});
 
-  }
+}
 
-  saveCart();
+saveCart();
 
-  alert(
-    "Product added to cart 🛒"
-  );
+alert(
+"Product added to cart 🛒"
+);
 
 }
 
 
 /* =========================
-   SAVE CART
+SAVE CART
 ========================= */
 
 function saveCart(){
 
-  localStorage.setItem(
-    "qelvizoCart",
-    JSON.stringify(cart)
-  );
+localStorage.setItem(
+"qelvizoCart",
+JSON.stringify(cart)
+);
 
-  updateCartCount();
+updateCartCount();
 
 }
 
 
 /* =========================
-   CART COUNT
+CART COUNT
 ========================= */
 
 function updateCartCount(){
 
-  const count =
-    cart.reduce(
-      function(sum,item){
+const count =
+cart.reduce(
+function(sum,item){
 
-        return sum +
-          Number(item.quantity || 0);
+return sum +
+Number(item.quantity || 0);
 
-      },
-      0
-    );
+},
+0
+);
 
-  document.getElementById(
-    "cartCount"
-  ).textContent = count;
+document.getElementById(
+"cartCount"
+).textContent = count;
 
 }
 
 
 /* =========================
-   OPEN CART
+OPEN CART
 ========================= */
 
 function openCart(){
 
-  renderCart();
+renderCart();
 
-  document.getElementById(
-    "cartOverlay"
-  ).style.display = "block";
+document.getElementById(
+"cartOverlay"
+).style.display = "block";
 
 }
 
 
 /* =========================
-   CLOSE CART
+CLOSE CART
 ========================= */
 
 function closeCart(){
 
-  document.getElementById(
-    "cartOverlay"
-  ).style.display = "none";
+document.getElementById(
+"cartOverlay"
+).style.display = "none";
 
 }
 
 
 /* =========================
-   RENDER CART
+RENDER CART
 ========================= */
 
 function renderCart(){
 
-  const box =
-    document.getElementById(
-      "cartItems"
-    );
+const box =
+document.getElementById(
+"cartItems"
+);
 
-  const totalBox =
-    document.getElementById(
-      "cartTotal"
-    );
+const totalBox =
+document.getElementById(
+"cartTotal"
+);
 
-  if(cart.length === 0){
+if(cart.length === 0){
 
-    box.innerHTML =
-      "<p>Your cart is empty.</p>";
+box.innerHTML =
+"<p>Your cart is empty.</p>";
 
-    totalBox.textContent =
-      "0";
+totalBox.textContent =
+"0";
 
-    document.getElementById(
-      "checkoutBtn"
-    ).disabled = true;
+document.getElementById(
+"checkoutBtn"
+).disabled = true;
 
-    return;
-  }
+return;
+}
 
-  document.getElementById(
-    "checkoutBtn"
-  ).disabled = false;
+document.getElementById(
+"checkoutBtn"
+).disabled = false;
 
-  let total = 0;
+let total = 0;
 
-  box.innerHTML =
-    cart.map(function(item){
+box.innerHTML =
+cart.map(function(item){
 
-      const itemTotal =
-        Number(item.price) *
-        Number(item.quantity);
+const itemTotal =
+Number(item.price) *
+Number(item.quantity);
 
-      total += itemTotal;
+total += itemTotal;
 
-      return `
+return `
 
-        <div class="cart-item">
+<div class="cart-item">
 
-          <img
-            src="${escapeHtml(item.image_url)}"
-            onerror="
-              this.src='https://via.placeholder.com/100?text=QELVIZO'
-            "
-          >
+<img
+src="${escapeHtml(item.image_url)}"
+onerror="
+this.src='https://via.placeholder.com/100?text=QELVIZO'
+"
+>
 
-          <div style="flex:1">
+<div style="flex:1">
 
-            <strong>
-              ${escapeHtml(item.name)}
-            </strong>
+<strong>
+${escapeHtml(item.name)}
+</strong>
 
-            <div>
-              ₹${Number(item.price)}
-              ×
-              ${Number(item.quantity)}
-            </div>
+<div>
+₹${Number(item.price)}
+×
+${Number(item.quantity)}
+</div>
 
-            <div class="qty">
+<div class="qty">
 
-              <button
-                onclick="
-                  changeQty('${item.id}',-1)
-                "
-              >
-                −
-              </button>
+<button
+onclick="
+changeQty('${item.id}',-1)
+"
+>
+−
+</button>
 
-              <span>
-                ${Number(item.quantity)}
-              </span>
+<span>
+${Number(item.quantity)}
+</span>
 
-              <button
-                onclick="
-                  changeQty('${item.id}',1)
-                "
-              >
-                +
-              </button>
+<button
+onclick="
+changeQty('${item.id}',1)
+"
+>
++
+</button>
 
-              <button
-                onclick="
-                  removeFromCart('${item.id}')
-                "
-              >
-                🗑️
-              </button>
+<button
+onclick="
+removeFromCart('${item.id}')
+"
+>
+🗑️
+</button>
 
-            </div>
+</div>
 
-          </div>
+</div>
 
-        </div>
+</div>
 
-      `;
+`;
 
-    }).join("");
+}).join("");
 
-  totalBox.textContent =
-    total.toFixed(2);
+totalBox.textContent =
+total.toFixed(2);
 
 }
 
 
 /* =========================
-   CHANGE QTY
+CHANGE QTY
 ========================= */
 
 function changeQty(id,change){
 
-  const item =
-    cart.find(
-      function(x){
-        return x.id === id;
-      }
-    );
+const item =
+cart.find(
+function(x){
+return x.id === id;
+}
+);
 
-  if(!item){
-    return;
-  }
+if(!item){
+return;
+}
 
-  const product =
-    products.find(
-      function(x){
-        return x.id === id;
-      }
-    );
+const product =
+products.find(
+function(x){
+return x.id === id;
+}
+);
 
-  item.quantity += change;
+item.quantity += change;
 
-  if(item.quantity <= 0){
+if(item.quantity <= 0){
 
-    removeFromCart(id);
+removeFromCart(id);
 
-    return;
-  }
+return;
+}
 
-  if(
-    product &&
-    item.quantity >
-    Number(product.stock)
-  ){
+if(
+product &&
+item.quantity >
+Number(product.stock)
+){
 
-    item.quantity =
-      Number(product.stock);
+item.quantity =
+Number(product.stock);
 
-    alert(
-      "Maximum available stock reached."
-    );
-  }
+alert(
+"Maximum available stock reached."
+);
 
-  saveCart();
+}
 
-  renderCart();
+saveCart();
+
+renderCart();
 
 }
 
 
 /* =========================
-   REMOVE CART ITEM
+REMOVE CART ITEM
 ========================= */
 
 function removeFromCart(id){
 
-  cart =
-    cart.filter(
-      function(item){
-        return item.id !== id;
-      }
-    );
+cart =
+cart.filter(
+function(item){
+return item.id !== id;
+}
+);
 
-  saveCart();
+saveCart();
 
-  renderCart();
+renderCart();
 
 }
 
 
 /* =========================
-   OPEN CHECKOUT
+OPEN CHECKOUT
 ========================= */
 
 function openCheckout(){
 
-  if(cart.length === 0){
+if(cart.length === 0){
 
-    alert(
-      "Your cart is empty."
-    );
+alert(
+"Your cart is empty."
+);
 
-    return;
-  }
+return;
+}
 
-  const total =
-    cart.reduce(
-      function(sum,item){
+const total =
+cart.reduce(
+function(sum,item){
 
-        return sum +
-          Number(item.price) *
-          Number(item.quantity);
+return sum +
+Number(item.price) *
+Number(item.quantity);
 
-      },
-      0
-    );
+},
+0
+);
 
-  document.getElementById(
-    "checkoutTotal"
-  ).textContent =
-    total.toFixed(2);
+document.getElementById(
+"checkoutTotal"
+).textContent =
+total.toFixed(2);
 
-  document.getElementById(
-    "checkoutOverlay"
-  ).style.display = "block";
+document.getElementById(
+"checkoutOverlay"
+).style.display = "block";
 
 }
 
 
 /* =========================
-   CLOSE CHECKOUT
+CLOSE CHECKOUT
 ========================= */
 
 function closeCheckout(){
 
-  document.getElementById(
-    "checkoutOverlay"
-  ).style.display = "none";
+document.getElementById(
+"checkoutOverlay"
+).style.display = "none";
 
 }
 
 
 /* =========================
-   PLACE ORDER
+PLACE ORDER
 ========================= */
 
 async function placeOrder(){
 
-  const name =
-    document.getElementById(
-      "customerName"
-    ).value.trim();
+const name =
+document.getElementById(
+"customerName"
+).value.trim();
 
-  const phone =
-    document.getElementById(
-      "customerPhone"
-    ).value.trim();
+const phone =
+document.getElementById(
+"customerPhone"
+).value.trim();
 
-  const address =
-    document.getElementById(
-      "customerAddress"
-    ).value.trim();
+const address =
+document.getElementById(
+"customerAddress"
+).value.trim();
 
-  const message =
-    document.getElementById(
-      "checkoutMessage"
-    );
+const message =
+document.getElementById(
+"checkoutMessage"
+);
 
-  const button =
-    document.getElementById(
-      "placeOrderBtn"
-    );
+const button =
+document.getElementById(
+"placeOrderBtn"
+);
 
 
-  /* VALIDATION */
+/* VALIDATION */
 
-  if(!name){
+if(!name){
 
-    alert(
-      "Please enter your name."
-    );
+alert(
+"Please enter your name."
+);
 
-    return;
-  }
+return;
+}
 
-  if(
-    !/^[0-9]{10}$/.test(phone)
-  ){
+if(
+!/^[0-9]{10}$/.test(phone)
+){
 
-    alert(
-      "Please enter a valid 10 digit phone number."
-    );
+alert(
+"Please enter a valid 10 digit phone number."
+);
 
-    return;
-  }
+return;
+}
 
-  if(!address){
+if(!address){
 
-    alert(
-      "Please enter your delivery address."
-    );
+alert(
+"Please enter your delivery address."
+);
 
-    return;
-  }
+return;
+}
 
-  if(cart.length === 0){
+if(cart.length === 0){
 
-    alert(
-      "Your cart is empty."
-    );
+alert(
+"Your cart is empty."
+);
 
-    return;
-  }
+return;
+}
 
 
-  /* TOTAL */
+/* TOTAL */
 
-  const total =
-    cart.reduce(
-      function(sum,item){
+const total =
+cart.reduce(
+function(sum,item){
 
-        return sum +
-          Number(item.price) *
-          Number(item.quantity);
+return sum +
+Number(item.price) *
+Number(item.quantity);
 
-      },
-      0
-    );
+},
+0
+);
 
 
-  /* ORDER ITEMS */
+/* ORDER ITEMS */
 
-  const orderItems =
-    cart.map(
-      function(item){
+const orderItems =
+cart.map(
+function(item){
 
-        return {
+return {
 
-          product_id:
-            item.id,
+product_id:
+item.id,
 
-          name:
-            item.name,
+name:
+item.name,
 
-          price:
-            Number(item.price),
+price:
+Number(item.price),
 
-          quantity:
-            Number(item.quantity)
+quantity:
+Number(item.quantity)
 
-        };
+};
 
-      }
-    );
+}
+);
 
 
-  /* BUTTON */
+/* BUTTON */
 
-  button.disabled = true;
+button.disabled = true;
 
-  button.textContent =
-    "Placing Order...";
+button.textContent =
+"Placing Order...";
 
-  message.innerHTML =
-    "";
+message.innerHTML =
+"";
 
 
-  console.log(
-    "ORDER DATA:",
-    {
-      customer_name:name,
-      customer_phone:phone,
-      customer_address:address,
-      payment_method:"COD",
-      items:orderItems,
-      total:total,
-      status:"Pending"
-    }
-  );
+/* INSERT ORDER */
 
+const result =
+await db
+.from("orders")
+.insert([
+{
+customer_name:name,
+customer_phone:phone,
+customer_address:address,
+payment_method:"COD",
+items:orderItems,
+total:total,
+status:"Pending"
+}
+]);
 
-  /* INSERT */
 
-  const result =
-    await db
-      .from("orders")
-      .insert([
-        {
-          customer_name:name,
+/* RESULT */
 
-          customer_phone:phone,
+const error =
+result.error;
 
-          customer_address:address,
+if(error){
 
-          payment_method:"COD",
+console.error(
+"ORDER DATABASE ERROR:",
+error
+);
 
-          items:orderItems,
+message.innerHTML = `
 
-          total:total,
+<div class="error-box">
 
-          status:"Pending"
-        }
-      ])
-      .select()
-      .single();
+<strong>
+❌ Order failed
+</strong>
 
+<br><br>
 
-  const data =
-    result.data;
+<strong>
+Error:
+</strong>
 
-  const error =
-    result.error;
+${escapeHtml(
+error.message || "Unknown error"
+)}
 
+<br><br>
 
-  /* ERROR */
+<strong>
+Code:
+</strong>
 
-  if(error){
+${escapeHtml(
+error.code || "N/A"
+)}
 
-    console.error(
-      "ORDER DATABASE ERROR:",
-      error
-    );
+<br><br>
 
-    message.innerHTML = `
+<strong>
+Details:
+</strong>
 
-      <div class="error-box">
+${escapeHtml(
+error.details || "N/A"
+)}
 
-        <strong>
-          ❌ Order failed
-        </strong>
+</div>
 
-        <br><br>
+`;
 
-        <strong>
-          Error:
-        </strong>
+button.disabled = false;
 
-        ${escapeHtml(
-          error.message || "Unknown error"
-        )}
+button.textContent =
+"Place Order";
 
-        <br><br>
+return;
+}
 
-        <strong>
-          Code:
-        </strong>
 
-        ${escapeHtml(
-          error.code || "N/A"
-        )}
+/* SUCCESS */
 
-        <br><br>
+cart = [];
 
-        <strong>
-          Details:
-        </strong>
+saveCart();
 
-        ${escapeHtml(
-          error.details || "N/A"
-        )}
+message.innerHTML = `
 
-      </div>
+<div class="success">
 
-    `;
+<h2>
+✅ Order Placed!
+</h2>
 
-    button.disabled = false;
+<p>
+Thank you for shopping with QELVIZO.
+</p>
 
-    button.textContent =
-      "Place Order";
+<p>
+Payment Method:
+<strong>
+Cash on Delivery
+</strong>
+</p>
 
-    return;
-  }
+<p>
+Your order has been received successfully.
+</p>
 
+<br>
 
-  /* SUCCESS */
+<button
+class="btn"
+onclick="location.reload()"
+>
+Continue Shopping
+</button>
 
-  cart = [];
+</div>
 
-  saveCart();
+`;
 
+document.getElementById(
+"customerName"
+).value = "";
 
-  message.innerHTML = `
+document.getElementById(
+"customerPhone"
+).value = "";
 
-    <div class="success">
+document.getElementById(
+"customerAddress"
+).value = "";
 
-      <h2>
-        ✅ Order Placed!
-      </h2>
-
-      <p>
-        Thank you for shopping with QELVIZO.
-      </p>
-
-      <p>
-        Payment Method:
-        <strong>
-          Cash on Delivery
-        </strong>
-      </p>
-
-      <p>
-        Order ID:
-      </p>
-
-      <div class="order-id">
-
-        ${escapeHtml(data.id)}
-
-      </div>
-
-      <br>
-
-      <button
-        class="btn"
-        onclick="location.reload()"
-      >
-        Continue Shopping
-      </button>
-
-    </div>
-
-  `;
-
-  document.getElementById(
-    "customerName"
-  ).value = "";
-
-  document.getElementById(
-    "customerPhone"
-  ).value = "";
-
-  document.getElementById(
-    "customerAddress"
-  ).value = "";
-
-  button.style.display =
-    "none";
+button.style.display =
+"none";
 
 }
 
 
 /* =========================
-   HTML SECURITY
+HTML SECURITY
 ========================= */
 
 function escapeHtml(value){
 
-  return String(value || "")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
+return String(value || "")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
 
 }
 
 
 /* =========================
-   START
+START
 ========================= */
 
 updateCartCount();
@@ -1324,4 +1288,4 @@ loadProducts();
 </script>
 
 </body>
-</html>
+  </html>
