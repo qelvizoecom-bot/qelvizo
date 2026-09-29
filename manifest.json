@@ -1,0 +1,22 @@
+{
+  "name": "QELVIZO Owner Panel",
+  "short_name": "QELVIZO Owner",
+  "description": "QELVIZO Owner Dashboard",
+  "start_url": "/admin.html",
+  "display": "standalone",
+  "background_color": "#111111",
+  "theme_color": "#111111",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
