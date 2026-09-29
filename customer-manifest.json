@@ -1,8 +1,9 @@
 {
-  "name": "QELVIZO",
+  "id": "/?customer-app",
+  "name": "QELVIZO Shopping",
   "short_name": "QELVIZO",
   "description": "QELVIZO Official Shopping Store",
-  "start_url": "/",
+  "start_url": "/?customer-app",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#111111",
