@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>
-QELVIZO - Smart Products. Better Living.
-</title>
+<title>QELVIZO - Smart Products. Better Living.</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -89,8 +88,7 @@ margin-bottom:30px;
 
 .products{
 display:grid;
-grid-template-columns:
-repeat(auto-fit,minmax(220px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
 gap:22px;
 }
 
@@ -174,9 +172,7 @@ margin-top:40px;
 }
 
 
-/* =========================
-TRACK ORDER
-========================= */
+/* TRACK ORDER */
 
 .track-section{
 max-width:600px;
@@ -321,9 +317,7 @@ font-size:14px;
 }
 
 
-/* =========================
-CART
-========================= */
+/* CART */
 
 .overlay{
 display:none;
@@ -388,9 +382,7 @@ padding:20px 0;
 }
 
 
-/* =========================
-CHECKOUT
-========================= */
+/* CHECKOUT */
 
 .checkout{
 display:none;
@@ -456,9 +448,7 @@ word-break:break-word;
 }
 
 
-/* =========================
-MOBILE
-========================= */
+/* MOBILE */
 
 @media(max-width:600px){
 
@@ -502,12 +492,9 @@ font-size:9px;
 
 </head>
 
+
 <body>
 
-
-<!-- =========================
-HEADER
-========================= -->
 
 <header>
 
@@ -537,10 +524,6 @@ onclick="openCart()"
 </header>
 
 
-<!-- =========================
-HERO
-========================= -->
-
 <section class="hero">
 
 <h1>
@@ -553,10 +536,6 @@ Discover useful products for your home, kitchen and garden.
 
 </section>
 
-
-<!-- =========================
-PRODUCTS
-========================= -->
 
 <section class="container">
 
@@ -577,10 +556,6 @@ Loading products...
 
 </section>
 
-
-<!-- =========================
-TRACK ORDER
-========================= -->
 
 <section
 id="trackSection"
@@ -635,10 +610,6 @@ class="track-result"
 </section>
 
 
-<!-- =========================
-ABOUT
-========================= -->
-
 <section class="about">
 
 <h2>
@@ -652,10 +623,6 @@ Quality products, useful designs and better everyday living.
 </section>
 
 
-<!-- =========================
-FOOTER
-========================= -->
-
 <footer>
 
 <p>
@@ -664,10 +631,6 @@ FOOTER
 
 </footer>
 
-
-<!-- =========================
-CART
-========================= -->
 
 <div
 id="cartOverlay"
@@ -705,10 +668,6 @@ Proceed to Checkout
 
 </div>
 
-
-<!-- =========================
-CHECKOUT
-========================= -->
 
 <div
 id="checkoutOverlay"
@@ -799,1044 +758,1001 @@ Place Order
 </div>
 
 
-<script> 
-  const SUPABASE_URL =
+<script>
+
+const SUPABASE_URL =
 "https://oogibbmsiiarceczqgfa.supabase.co";
 
 const SUPABASE_KEY =
 "sb_publishable_VLedtJ2r9K4fC00T4k8CgA_ahfpM1dh";
 
 const db = supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
+SUPABASE_URL,
+SUPABASE_KEY
 );
 
 let products = [];
+
 let cart = JSON.parse(
-  localStorage.getItem("qelvizo_cart") || "[]"
+localStorage.getItem("qelvizo_cart") || "[]"
 );
 
 
-/* =========================
-PRODUCTS
-========================= */
+/* PRODUCTS */
 
 async function loadProducts(){
 
-  const { data, error } = await db
-    .from("products")
-    .select(
-      "id,name,description,price,mrp,image_url,stock,is_active"
-    )
-    .eq("is_active", true)
-    .order("name");
+const { data,error } =
+await db
+.from("products")
+.select(
+"id,name,description,price,mrp,image_url,stock,is_active"
+)
+.eq("is_active",true)
+.order("name");
 
-  if(error){
-    document.getElementById("products").innerHTML =
-      "<p>Products load nahi ho pa rahe.</p>";
-    return;
-  }
+if(error){
 
-  products = data || [];
-  renderProducts();
+document.getElementById("products").innerHTML =
+"<p>Products load nahi ho pa rahe.</p>";
+
+console.error(error);
+
+return;
+}
+
+products = data || [];
+
+renderProducts();
 
 }
 
 
-/* =========================
-RENDER PRODUCTS
-========================= */
+/* RENDER PRODUCTS */
 
 function renderProducts(){
 
-  const box =
-    document.getElementById("products");
+const box =
+document.getElementById("products");
 
-  if(!products.length){
+if(!products.length){
 
-    box.innerHTML =
-      "<p>No products available.</p>";
+box.innerHTML =
+"<p>No products available.</p>";
 
-    return;
-  }
+return;
+}
 
-  box.innerHTML = products.map(p => `
+box.innerHTML =
+products.map(p => `
 
-    <div class="product">
+<div class="product">
 
-      <img
-        src="${escapeHtml(p.image_url || '')}"
-        alt="${escapeHtml(p.name)}"
-      >
+<img
+src="${escapeHtml(p.image_url || "")}"
+alt="${escapeHtml(p.name)}"
+>
 
-      <div class="product-info">
+<div class="product-info">
 
-        <h3>
-          ${escapeHtml(p.name)}
-        </h3>
+<h3>
+${escapeHtml(p.name)}
+</h3>
 
-        <div class="desc">
-          ${escapeHtml(p.description || '')}
-        </div>
+<div class="desc">
+${escapeHtml(p.description || "")}
+</div>
 
-        <div class="price">
+<div class="price">
 
-          ₹${Number(p.price || 0)}
+₹${Number(p.price || 0)}
 
-          ${
-            p.mrp
-            ? `<span class="mrp">
-                ₹${Number(p.mrp)}
-               </span>`
-            : ""
-          }
+${
+p.mrp
+? `<span class="mrp">
+₹${Number(p.mrp)}
+</span>`
+: ""
+}
 
-        </div>
+</div>
 
-        <div class="stock">
+<div class="stock">
 
-          ${
-            Number(p.stock || 0) > 0
-            ? `In Stock (${Number(p.stock)})`
-            : "Out of Stock"
-          }
+${
+Number(p.stock || 0) > 0
+? `In Stock (${Number(p.stock)})`
+: "Out of Stock"
+}
 
-        </div>
+</div>
 
-        <button
-          class="btn"
-          ${
-            Number(p.stock || 0) <= 0
-            ? "disabled"
-            : ""
-          }
-          onclick="addToCart('${p.id}')"
-        >
-          ${
-            Number(p.stock || 0) > 0
-            ? "Add to Cart"
-            : "Out of Stock"
-          }
-        </button>
+<button
+class="btn"
+${
+Number(p.stock || 0) <= 0
+? "disabled"
+: ""
+}
+onclick="addToCart('${p.id}')"
+>
 
-      </div>
+${
+Number(p.stock || 0) > 0
+? "Add to Cart"
+: "Out of Stock"
+}
 
-    </div>
+</button>
 
-  `).join("");
+</div>
+
+</div>
+
+`).join("");
 
 }
 
 
-/* =========================
-CART
-========================= */
+/* CART */
 
 function addToCart(id){
 
-  const product =
-    products.find(p => p.id === id);
+const product =
+products.find(p => p.id === id);
 
-  if(!product) return;
+if(!product)return;
 
-  const existing =
-    cart.find(item => item.id === id);
+const existing =
+cart.find(item => item.id === id);
 
-  if(existing){
+if(existing){
 
-    existing.qty++;
+existing.qty++;
 
-  }else{
+}else{
 
-    cart.push({
-      id: product.id,
-      name: product.name,
-      price: Number(product.price || 0),
-      image_url: product.image_url || "",
-      qty: 1
-    });
+cart.push({
 
-  }
+id:product.id,
 
-  saveCart();
+name:product.name,
 
-  openCart();
+price:Number(product.price || 0),
+
+image_url:product.image_url || "",
+
+qty:1
+
+});
+
+}
+
+saveCart();
+
+openCart();
 
 }
 
 
 function saveCart(){
 
-  localStorage.setItem(
-    "qelvizo_cart",
-    JSON.stringify(cart)
-  );
+localStorage.setItem(
+"qelvizo_cart",
+JSON.stringify(cart)
+);
 
-  updateCartCount();
-  renderCart();
+updateCartCount();
+
+renderCart();
 
 }
 
 
 function updateCartCount(){
 
-  const count =
-    cart.reduce(
-      (sum,item) => sum + Number(item.qty),
-      0
-    );
+const count =
+cart.reduce(
+(sum,item) =>
+sum + Number(item.qty),
+0
+);
 
-  document.getElementById("cartCount")
-    .textContent = count;
+document.getElementById(
+"cartCount"
+).textContent = count;
 
 }
 
 
 function openCart(){
 
-  document.getElementById(
-    "cartOverlay"
-  ).style.display = "block";
+document.getElementById(
+"cartOverlay"
+).style.display = "block";
 
-  renderCart();
+renderCart();
 
 }
 
 
 function closeCart(){
 
-  document.getElementById(
-    "cartOverlay"
-  ).style.display = "none";
+document.getElementById(
+"cartOverlay"
+).style.display = "none";
 
 }
 
 
 function renderCart(){
 
-  const box =
-    document.getElementById("cartItems");
+const box =
+document.getElementById("cartItems");
 
-  if(!cart.length){
+if(!cart.length){
 
-    box.innerHTML =
-      "<p>Your cart is empty.</p>";
+box.innerHTML =
+"<p>Your cart is empty.</p>";
 
-    document.getElementById(
-      "cartTotal"
-    ).textContent = "0";
+document.getElementById(
+"cartTotal"
+).textContent = "0";
 
-    document.getElementById(
-      "checkoutBtn"
-    ).disabled = true;
+document.getElementById(
+"checkoutBtn"
+).disabled = true;
 
-    return;
-  }
+return;
+}
 
-  document.getElementById(
-    "checkoutBtn"
-  ).disabled = false;
+document.getElementById(
+"checkoutBtn"
+).disabled = false;
 
-  box.innerHTML = cart.map(item => `
+box.innerHTML =
+cart.map(item => `
 
-    <div class="cart-item">
+<div class="cart-item">
 
-      <img
-        src="${escapeHtml(item.image_url)}"
-        alt="${escapeHtml(item.name)}"
-      >
+<img
+src="${escapeHtml(item.image_url || "")}"
+alt="${escapeHtml(item.name)}"
+>
 
-      <div style="flex:1">
+<div style="flex:1">
 
-        <strong>
-          ${escapeHtml(item.name)}
-        </strong>
+<strong>
+${escapeHtml(item.name)}
+</strong>
 
-        <div>
-          ₹${item.price}
-        </div>
+<div>
+₹${Number(item.price)}
+</div>
 
-        <div class="qty">
+<div class="qty">
 
-          <button
-            onclick="changeQty('${item.id}',-1)"
-          >
-            −
-          </button>
+<button
+onclick="changeQty('${item.id}',-1)"
+>
+−
+</button>
 
-          <span>
-            ${item.qty}
-          </span>
+<span>
+${Number(item.qty)}
+</span>
 
-          <button
-            onclick="changeQty('${item.id}',1)"
-          >
-            +
-          </button>
+<button
+onclick="changeQty('${item.id}',1)"
+>
++
+</button>
 
-          <button
-            onclick="removeFromCart('${item.id}')"
-          >
-            🗑
-          </button>
+<button
+onclick="removeFromCart('${item.id}')"
+>
+🗑
+</button>
 
-        </div>
+</div>
 
-      </div>
+</div>
 
-    </div>
+</div>
 
-  `).join("");
+`).join("");
 
-  const total =
-    getCartTotal();
-
-  document.getElementById(
-    "cartTotal"
-  ).textContent = total;
+document.getElementById(
+"cartTotal"
+).textContent =
+getCartTotal();
 
 }
 
 
 function changeQty(id,change){
 
-  const item =
-    cart.find(x => x.id === id);
+const item =
+cart.find(x => x.id === id);
 
-  if(!item) return;
+if(!item)return;
 
-  item.qty += change;
+item.qty += change;
 
-  if(item.qty <= 0){
+if(item.qty <= 0){
 
-    cart =
-      cart.filter(x => x.id !== id);
+cart =
+cart.filter(x => x.id !== id);
 
-  }
+}
 
-  saveCart();
+saveCart();
 
 }
 
 
 function removeFromCart(id){
 
-  cart =
-    cart.filter(x => x.id !== id);
+cart =
+cart.filter(x => x.id !== id);
 
-  saveCart();
+saveCart();
 
 }
 
 
 function getCartTotal(){
 
-  return cart.reduce(
-    (sum,item) =>
-      sum +
-      Number(item.price) *
-      Number(item.qty),
-    0
-  );
+return cart.reduce(
+(sum,item) =>
+sum +
+Number(item.price) *
+Number(item.qty),
+0
+);
 
 }
 
 
-/* =========================
-CHECKOUT
-========================= */
+/* CHECKOUT */
 
 function openCheckout(){
 
-  if(!cart.length) return;
+if(!cart.length)return;
 
-  document.getElementById(
-    "checkoutTotal"
-  ).textContent =
-    getCartTotal();
+document.getElementById(
+"checkoutTotal"
+).textContent =
+getCartTotal();
 
-  document.getElementById(
-    "checkoutOverlay"
-  ).style.display = "block";
+document.getElementById(
+"checkoutOverlay"
+).style.display =
+"block";
 
 }
 
 
 function closeCheckout(){
 
-  document.getElementById(
-    "checkoutOverlay"
-  ).style.display = "none";
+document.getElementById(
+"checkoutOverlay"
+).style.display =
+"none";
 
 }
 
 
-/* =========================
-PLACE ORDER
-========================= */
+/* PLACE ORDER */
 
 async function placeOrder(){
 
-  if(!cart.length){
+if(!cart.length){
 
-    alert("Cart is empty.");
+alert("Cart is empty.");
 
-    return;
-  }
+return;
 
-  const name =
-    document.getElementById(
-      "customerName"
-    ).value.trim();
+}
 
-  const phone =
-    document.getElementById(
-      "customerPhone"
-    ).value.trim();
+const name =
+document.getElementById(
+"customerName"
+).value.trim();
 
-  const address =
-    document.getElementById(
-      "customerAddress"
-    ).value.trim();
+const phone =
+document.getElementById(
+"customerPhone"
+).value.trim();
 
-  const message =
-    document.getElementById(
-      "checkoutMessage"
-    );
+const address =
+document.getElementById(
+"customerAddress"
+).value.trim();
 
-  const button =
-    document.getElementById(
-      "placeOrderBtn"
-    );
+const message =
+document.getElementById(
+"checkoutMessage"
+);
 
+const button =
+document.getElementById(
+"placeOrderBtn"
+);
 
-  if(!name || !phone || !address){
+if(!name || !phone || !address){
 
-    message.innerHTML =
-      `<div class="error-box">
-        Please fill all details.
-       </div>`;
+message.innerHTML =
+`
+<div class="error-box">
+Please fill all details.
+</div>
+`;
 
-    return;
-  }
+return;
 
+}
 
-  if(!/^[0-9]{10}$/.test(phone)){
+if(!/^[0-9]{10}$/.test(phone)){
 
-    message.innerHTML =
-      `<div class="error-box">
-        Please enter a valid 10 digit mobile number.
-       </div>`;
+message.innerHTML =
+`
+<div class="error-box">
+Please enter a valid 10 digit mobile number.
+</div>
+`;
 
-    return;
-  }
+return;
 
+}
 
-  button.disabled = true;
-  button.textContent =
-    "Placing Order...";
+button.disabled = true;
 
+button.textContent =
+"Placing Order...";
 
-  const orderId =
-    crypto.randomUUID();
 
+const orderId =
+crypto.randomUUID();
 
-  const orderItems =
-    cart.map(item => ({
-      id: item.id,
-      name: item.name,
-      price: item.price,
-      quantity: item.qty
-    }));
 
+const orderItems =
+cart.map(item => ({
 
-  const total =
-    getCartTotal();
+id:item.id,
 
+name:item.name,
 
-  const result =
-    await db
-      .from("orders")
-      .insert([{
+price:item.price,
 
-        id: orderId,
+quantity:item.qty
 
-        customer_name: name,
+}));
 
-        customer_phone: phone,
 
-        customer_address: address,
+const total =
+getCartTotal();
 
-        payment_method: "COD",
 
-        items: orderItems,
+const result =
+await db
+.from("orders")
+.insert([{
 
-        total: total,
+id:orderId,
 
-        status: "Pending"
+customer_name:name,
 
-      }]);
+customer_phone:phone,
 
+customer_address:address,
 
-  const error =
-    result.error;
+payment_method:"COD",
 
+items:orderItems,
 
-  if(error){
+total:total,
 
-    console.error(error);
+status:"Pending"
 
-    message.innerHTML =
-      `<div class="error-box">
-        Order place nahi hua.<br><br>
-        ${escapeHtml(error.message)}
-       </div>`;
+}]);
 
-    button.disabled = false;
-    button.textContent =
-      "Place Order";
 
-    return;
-  }
+if(result.error){
 
+console.error(result.error);
 
-  localStorage.setItem(
-    "qelvizo_last_order_id",
-    orderId
-  );
+message.innerHTML =
+`
+<div class="error-box">
 
-  localStorage.setItem(
-    "qelvizo_last_order_phone",
-    phone
-  );
+Order place nahi hua.<br><br>
 
+${escapeHtml(result.error.message)}
 
-  cart = [];
+</div>
+`;
 
-  saveCart();
+button.disabled = false;
 
+button.textContent =
+"Place Order";
 
-  document.getElementById(
-    "customerName"
-  ).value = "";
-
-  document.getElementById(
-    "customerPhone"
-  ).value = "";
-
-  document.getElementById(
-    "customerAddress"
-  ).value = "";
-
-
-  message.innerHTML = `
-
-    <div class="success">
-
-      <h2>
-        🎉 Order Placed!
-      </h2>
-
-      <p>
-        Your order has been received successfully.
-      </p>
-
-      <div class="order-id">
-
-        <strong>
-          Order ID
-        </strong>
-
-        <br>
-
-        ${orderId}
-
-      </div>
-
-      <button
-        class="btn"
-        onclick="closeCheckout();openTrackOrder();loadLastOrder();"
-      >
-        📦 Track This Order
-      </button>
-
-    </div>
-
-  `;
-
-
-  button.disabled = false;
-  button.textContent =
-    "Place Order";
+return;
 
 }
 
 
-/* =========================
-TRACK ORDER
-========================= */
+localStorage.setItem(
+"qelvizo_last_order_id",
+orderId
+);
+
+localStorage.setItem(
+"qelvizo_last_order_phone",
+phone
+);
+
+
+cart = [];
+
+saveCart();
+
+
+document.getElementById(
+"customerName"
+).value = "";
+
+document.getElementById(
+"customerPhone"
+).value = "";
+
+document.getElementById(
+"customerAddress"
+).value = "";
+
+
+message.innerHTML = `
+
+<div class="success">
+
+<h2>
+🎉 Order Placed!
+</h2>
+
+<p>
+Your order has been received successfully.
+</p>
+
+<div class="order-id">
+
+<strong>
+Order ID
+</strong>
+
+<br>
+
+${orderId}
+
+</div>
+
+<button
+class="btn"
+onclick="
+closeCheckout();
+openTrackOrder();
+loadLastOrder();
+"
+>
+📦 Track This Order
+</button>
+
+</div>
+
+`;
+
+
+button.disabled = false;
+
+button.textContent =
+"Place Order";
+
+}
+
+
+/* TRACK ORDER */
 
 function openTrackOrder(){
 
-  document.getElementById(
-    "trackSection"
-  ).scrollIntoView({
-    behavior:"smooth"
-  });
+document.getElementById(
+"trackSection"
+).scrollIntoView({
+behavior:"smooth"
+});
 
 }
 
 
 async function trackOrder(){
 
-  const orderId =
-    document.getElementById(
-      "trackOrderId"
-    ).value.trim();
+const orderId =
+document.getElementById(
+"trackOrderId"
+).value.trim();
 
-  const phone =
-    document.getElementById(
-      "trackPhone"
-    ).value.trim();
+const phone =
+document.getElementById(
+"trackPhone"
+).value.trim();
 
-  const resultBox =
-    document.getElementById(
-      "trackResult"
-    );
+const resultBox =
+document.getElementById(
+"trackResult"
+);
 
-  if(!orderId || !phone){
+if(!orderId || !phone){
 
-    resultBox.innerHTML =
-      `<div class="track-error">
-        Please enter Order ID and mobile number.
-       </div>`;
+resultBox.innerHTML =
+`
+<div class="track-error">
+Please enter Order ID and mobile number.
+</div>
+`;
 
-    return;
-  }
-
-
-  resultBox.innerHTML =
-    "<p>Checking order...</p>";
-
-
-  const { data, error } =
-    await db.rpc(
-      "get_order_status",
-      {
-        p_order_id: orderId,
-        p_phone: phone
-      }
-    );
-
-
-  if(error){
-
-    console.error(error);
-
-    resultBox.innerHTML =
-      `<div class="track-error">
-        ${escapeHtml(error.message)}
-       </div>`;
-
-    return;
-  }
-
-
-  if(!data || !data.length){
-
-    resultBox.innerHTML =
-      `<div class="track-error">
-        Order not found.<br>
-        Please check Order ID and mobile number.
-       </div>`;
-
-    return;
-  }
-
-
-  renderOrderStatus(data[0]);
+return;
 
 }
 
+resultBox.innerHTML =
+"<p>Checking order...</p>";
+
+
+const {data,error} =
+await db.rpc(
+"get_order_status",
+{
+p_order_id:orderId,
+p_phone:phone
+}
+);
+
+
+if(error){
+
+console.error(error);
+
+resultBox.innerHTML =
+`
+<div class="track-error">
+
+${escapeHtml(error.message)}
+
+</div>
+`;
+
+return;
+
+}
+
+
+if(!data || !data.length){
+
+resultBox.innerHTML =
+`
+<div class="track-error">
+
+Order not found.<br>
+
+Please check Order ID and mobile number.
+
+</div>
+`;
+
+return;
+
+}
+
+
+renderOrderStatus(data[0]);
+
+}
+
+
+/* RENDER ORDER STATUS */
 
 function renderOrderStatus(order){
 
-  const resultBox =
-    document.getElementById("trackResult");
+const resultBox =
+document.getElementById(
+"trackResult"
+);
 
-  const status =
-    order.status || "Pending";
+const status =
+order.status || "Pending";
 
-  const statusClass =
-    status.toLowerCase()
-      .replace(/\s/g,"-");
-
-  const steps = [
-    "Pending",
-    "Confirmed",
-    "Shipped",
-    "Delivered"
-  ];
-
-  let progress = "";
-
-  if(status === "Cancelled"){
-
-    progress = `
-      <div class="progress">
-
-        <div class="step active">
-          <div class="step-circle">✓</div>
-          Cancelled
-        </div>
-
-      </div>
-    `;
-
-  }else{
-
-    const currentIndex =
-      steps.indexOf(status);
-
-    progress = `
-      <div class="progress">
-
-        ${steps.map((step,index) => `
-
-          <div class="
-            step
-            ${index <= currentIndex ? "active" : ""}
-          ">
-
-            <div class="step-circle">
-              ${index <= currentIndex ? "✓" : index + 1}
-            </div>
-
-            ${step}
-
-          </div>
-
-        `).join("")}
-
-      </div>
-    `;
-  }
+const statusClass =
+status.toLowerCase()
+.replace(/\s/g,"-");
 
 
-  let itemsHtml = "";
-
-  if(Array.isArray(order.items)){
-
-    itemsHtml = order.items.map(item => `
-
-      <div class="order-item">
-
-        <strong>
-          ${escapeHtml(item.name || "Product")}
-        </strong>
-
-        <br>
-
-        Quantity:
-        ${Number(item.quantity || 1)}
-
-        &nbsp; × &nbsp;
-
-        ₹${Number(item.price || 0)}
-
-      </div>
-
-    `).join("");
-
-  }else{
-
-    itemsHtml =
-      "<div class='order-item'>Order items unavailable.</div>";
-
-  }
+const steps = [
+"Pending",
+"Confirmed",
+"Shipped",
+"Delivered"
+];
 
 
-  const orderDate =
-    order.created_at
-      ? new Date(order.created_at).toLocaleString("en-IN")
-      : "N/A";
+let progress = "";
 
 
-  resultBox.innerHTML = `
+if(status === "Cancelled"){
 
-    <div class="status-card">
+progress = `
 
-      <h3>
-        📦 Order Status
-      </h3>
+<div class="progress">
 
-      <div class="status-badge status-${statusClass}">
-        ${escapeHtml(status)}
-      </div>
+<div class="step active">
 
-      ${progress}
+<div class="step-circle">
+✓
+</div>
 
-      <p>
-        <strong>Order ID:</strong><br>
-        ${escapeHtml(order.id || "")}
-      </p>
+Cancelled
 
-      <p>
-        <strong>Customer Name:</strong><br>
-        ${escapeHtml(order.customer_name || "")}
-      </p>
+</div>
 
-      <p>
-        <strong>Mobile Number:</strong><br>
-        ${escapeHtml(order.customer_phone || "")}
-      </p>
+</div>
 
-      <p>
-        <strong>Delivery Address:</strong><br>
-        ${escapeHtml(order.customer_address || "")}
-      </p>
+`;
 
-      <p>
-        <strong>Order Date & Time:</strong><br>
-        ${escapeHtml(orderDate)}
-      </p>
+}else{
 
-      <div class="order-items">
+const currentIndex =
+steps.indexOf(status);
 
-        <strong>Products</strong>
+progress = `
 
-        ${itemsHtml}
+<div class="progress">
 
-      </div>
+${
+steps.map(
+(step,index) => `
 
-      <div class="track-total">
+<div class="
+step
+${index <= currentIndex ? "active" : ""}
+">
 
-        Total:
-        ₹${Number(order.total || 0)}
+<div class="step-circle">
 
-      </div>
-
-      <p>
-        <strong>Payment:</strong>
-        ${escapeHtml(order.payment_method || "COD")}
-      </p>
-
-    </div>
-
-  `;
-
+${
+index <= currentIndex
+? "✓"
+: index + 1
 }
 
-    progress = `
-      <div class="status-badge status-cancelled">
-        Cancelled
-      </div>
-    `;
+</div>
 
-  }else{
+${step}
 
-    progress = `
-      <div class="progress">
+</div>
 
-        ${steps.map((step,index) => {
+`
+).join("")
+}
 
-          const current =
-            steps.indexOf(status);
+</div>
 
-          const active =
-            index <= current;
-
-          return `
-
-            <div class="step ${
-              active ? "active" : ""
-            }">
-
-              <div class="step-circle">
-                ${index + 1}
-              </div>
-
-              ${step}
-
-            </div>
-
-          `;
-
-        }).join("")}
-
-      </div>
-    `;
-
-  }
-
-
-  let items = [];
-
-  try{
-
-    items =
-      Array.isArray(order.items)
-      ? order.items
-      : [];
-
-  }catch(e){
-
-    items = [];
-
-  }
-
-
-  resultBox.innerHTML = `
-
-    <div class="status-card">
-
-      <h3>
-        Order Status
-      </h3>
-
-      <div class="status-badge status-${statusClass}">
-        ${escapeHtml(status)}
-      </div>
-
-      ${progress}
-
-      <p>
-        <strong>
-          Order ID:
-        </strong>
-
-        <br>
-
-        ${escapeHtml(order.id)}
-      </p>
-
-      <p>
-        <strong>
-          Customer:
-        </strong>
-
-        ${escapeHtml(order.customer_name || "")}
-      </p>
-
-      <div class="order-items">
-
-        <strong>
-          Products
-        </strong>
-
-        ${
-          items.length
-          ? items.map(item => `
-
-              <div class="order-item">
-
-                ${escapeHtml(item.name || "Product")}
-
-                ×
-
-                ${Number(item.quantity || 1)}
-
-                <br>
-
-                ₹${Number(item.price || 0)}
-
-              </div>
-
-            `).join("")
-          : "<p>No item details.</p>"
-        }
-
-      </div>
-
-      <div class="track-total">
-
-        Total:
-        ₹${Number(order.total || 0)}
-
-      </div>
-
-      <p>
-        Payment:
-        ${escapeHtml(order.payment_method || "COD")}
-      </p>
-
-      <p>
-        Order Date:
-        ${
-          order.created_at
-          ? new Date(order.created_at)
-              .toLocaleString("en-IN")
-          : ""
-        }
-      </p>
-
-    </div>
-
-  `;
+`;
 
 }
 
 
-/* =========================
-LOAD LAST ORDER
-========================= */
+let itemsHtml = "";
+
+
+if(Array.isArray(order.items)){
+
+itemsHtml =
+order.items.map(item => `
+
+<div class="order-item">
+
+<strong>
+${escapeHtml(item.name || "Product")}
+</strong>
+
+<br>
+
+Quantity:
+${Number(item.quantity || 1)}
+
+&nbsp; × &nbsp;
+
+₹${Number(item.price || 0)}
+
+</div>
+
+`).join("");
+
+}else{
+
+itemsHtml =
+"<div class='order-item'>Order items unavailable.</div>";
+
+}
+
+
+const orderDate =
+order.created_at
+? new Date(order.created_at).toLocaleString("en-IN")
+: "N/A";
+
+
+resultBox.innerHTML = `
+
+<div class="status-card">
+
+<h3>
+📦 Order Status
+</h3>
+
+<div class="status-badge status-${statusClass}">
+${escapeHtml(status)}
+</div>
+
+${progress}
+
+
+<p>
+
+<strong>
+Order ID:
+</strong>
+
+<br>
+
+${escapeHtml(order.id || "")}
+
+</p>
+
+
+<p>
+
+<strong>
+Customer Name:
+</strong>
+
+<br>
+
+${escapeHtml(order.customer_name || "")}
+
+</p>
+
+
+<p>
+
+<strong>
+Mobile Number:
+</strong>
+
+<br>
+
+${escapeHtml(order.customer_phone || "")}
+
+</p>
+
+
+<p>
+
+<strong>
+Delivery Address:
+</strong>
+
+<br>
+
+${escapeHtml(order.customer_address || "")}
+
+</p>
+
+
+<p>
+
+<strong>
+Order Date & Time:
+</strong>
+
+<br>
+
+${escapeHtml(orderDate)}
+
+</p>
+
+
+<div class="order-items">
+
+<strong>
+Products
+</strong>
+
+${itemsHtml}
+
+</div>
+
+
+<div class="track-total">
+
+Total:
+₹${Number(order.total || 0)}
+
+</div>
+
+
+<p>
+
+<strong>
+Payment:
+</strong>
+
+${escapeHtml(order.payment_method || "COD")}
+
+</p>
+
+
+</div>
+
+`;
+
+}
+
+
+/* LAST ORDER */
 
 function loadLastOrder(){
 
-  const orderId =
-    localStorage.getItem(
-      "qelvizo_last_order_id"
-    );
+const orderId =
+localStorage.getItem(
+"qelvizo_last_order_id"
+);
 
-  const phone =
-    localStorage.getItem(
-      "qelvizo_last_order_phone"
-    );
+const phone =
+localStorage.getItem(
+"qelvizo_last_order_phone"
+);
 
-  if(orderId){
+if(orderId && phone){
 
-    document.getElementById(
-      "trackOrderId"
-    ).value = orderId;
+document.getElementById(
+"trackOrderId"
+).value =
+orderId;
 
-  }
+document.getElementById(
+"trackPhone"
+).value =
+phone;
 
-  if(phone){
-
-    document.getElementById(
-      "trackPhone"
-    ).value = phone;
-
-  }
-
-  if(orderId && phone){
-
-    trackOrder();
-
-  }
+}
 
 }
 
 
-/* =========================
-ESCAPE HTML
-========================= */
+/* ESCAPE HTML */
 
 function escapeHtml(value){
 
-  return String(value ?? "")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
+return String(value ?? "")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
 
 }
 
 
-/* =========================
-START
-========================= */
+/* START */
 
 loadProducts();
 
@@ -1850,6 +1766,4 @@ loadLastOrder();
 
 </body>
 
-</html>
-  
-  
+  </html>
