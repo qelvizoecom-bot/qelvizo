@@ -1462,18 +1462,14 @@ async function trackOrder(){
 function renderOrderStatus(order){
 
   const resultBox =
-    document.getElementById(
-      "trackResult"
-    );
+    document.getElementById("trackResult");
 
   const status =
     order.status || "Pending";
 
-
   const statusClass =
     status.toLowerCase()
       .replace(/\s/g,"-");
-
 
   const steps = [
     "Pending",
@@ -1482,10 +1478,154 @@ function renderOrderStatus(order){
     "Delivered"
   ];
 
-
   let progress = "";
 
   if(status === "Cancelled"){
+
+    progress = `
+      <div class="progress">
+
+        <div class="step active">
+          <div class="step-circle">✓</div>
+          Cancelled
+        </div>
+
+      </div>
+    `;
+
+  }else{
+
+    const currentIndex =
+      steps.indexOf(status);
+
+    progress = `
+      <div class="progress">
+
+        ${steps.map((step,index) => `
+
+          <div class="
+            step
+            ${index <= currentIndex ? "active" : ""}
+          ">
+
+            <div class="step-circle">
+              ${index <= currentIndex ? "✓" : index + 1}
+            </div>
+
+            ${step}
+
+          </div>
+
+        `).join("")}
+
+      </div>
+    `;
+  }
+
+
+  let itemsHtml = "";
+
+  if(Array.isArray(order.items)){
+
+    itemsHtml = order.items.map(item => `
+
+      <div class="order-item">
+
+        <strong>
+          ${escapeHtml(item.name || "Product")}
+        </strong>
+
+        <br>
+
+        Quantity:
+        ${Number(item.quantity || 1)}
+
+        &nbsp; × &nbsp;
+
+        ₹${Number(item.price || 0)}
+
+      </div>
+
+    `).join("");
+
+  }else{
+
+    itemsHtml =
+      "<div class='order-item'>Order items unavailable.</div>";
+
+  }
+
+
+  const orderDate =
+    order.created_at
+      ? new Date(order.created_at).toLocaleString("en-IN")
+      : "N/A";
+
+
+  resultBox.innerHTML = `
+
+    <div class="status-card">
+
+      <h3>
+        📦 Order Status
+      </h3>
+
+      <div class="status-badge status-${statusClass}">
+        ${escapeHtml(status)}
+      </div>
+
+      ${progress}
+
+      <p>
+        <strong>Order ID:</strong><br>
+        ${escapeHtml(order.id || "")}
+      </p>
+
+      <p>
+        <strong>Customer Name:</strong><br>
+        ${escapeHtml(order.customer_name || "")}
+      </p>
+
+      <p>
+        <strong>Mobile Number:</strong><br>
+        ${escapeHtml(order.customer_phone || "")}
+      </p>
+
+      <p>
+        <strong>Delivery Address:</strong><br>
+        ${escapeHtml(order.customer_address || "")}
+      </p>
+
+      <p>
+        <strong>Order Date & Time:</strong><br>
+        ${escapeHtml(orderDate)}
+      </p>
+
+      <div class="order-items">
+
+        <strong>Products</strong>
+
+        ${itemsHtml}
+
+      </div>
+
+      <div class="track-total">
+
+        Total:
+        ₹${Number(order.total || 0)}
+
+      </div>
+
+      <p>
+        <strong>Payment:</strong>
+        ${escapeHtml(order.payment_method || "COD")}
+      </p>
+
+    </div>
+
+  `;
+
+}
 
     progress = `
       <div class="status-badge status-cancelled">
