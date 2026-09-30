@@ -1,7 +1,7 @@
 {
   "id": "/shop/",
   "name": "QELVIZO Shopping",
-  "short_name": "QELVIZO",
+  "short_name": "QELVIZO Shop",
   "description": "QELVIZO Official Shopping Store",
   "start_url": "/shop/",
   "scope": "/shop/",
