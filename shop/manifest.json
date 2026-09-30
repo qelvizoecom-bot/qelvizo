@@ -1,10 +1,10 @@
 {
-  "id": "/shop/",
+  "id": "/",
   "name": "QELVIZO Shopping",
   "short_name": "QELVIZO Shop",
   "description": "QELVIZO Official Shopping Store",
-  "start_url": "/shop/",
-  "scope": "/shop/",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#111111",
